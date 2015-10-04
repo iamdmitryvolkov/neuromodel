@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SettingsForm</class>
+ <widget class="QWidget" name="SettingsForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>310</width>
+    <height>202</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>310</width>
+    <height>202</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>310</width>
+    <height>202</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Settings</string>
+  </property>
+  <widget class="QGroupBox" name="StartupGroupBox">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>5</y>
+     <width>300</width>
+     <height>150</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Startup network</string>
+   </property>
+   <widget class="QTabWidget" name="StartupTabs">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>15</y>
+      <width>300</width>
+      <height>135</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
+    </property>
+    <widget class="QWidget" name="TabNew">
+     <attribute name="title">
+      <string>New</string>
+     </attribute>
+     <widget class="QLabel" name="NeuronsCountLabel">
+      <property name="geometry">
+       <rect>
+        <x>5</x>
+        <y>9</y>
+        <width>115</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Neurons count:</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="NeuronsCountBox">
+      <property name="geometry">
+       <rect>
+        <x>125</x>
+        <y>5</y>
+        <width>50</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="ElectrodesCountBox">
+      <property name="geometry">
+       <rect>
+        <x>125</x>
+        <y>32</y>
+        <width>50</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ElectrodesCountLabel">
+      <property name="geometry">
+       <rect>
+        <x>5</x>
+        <y>36</y>
+        <width>115</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Electrodes count:</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="ElectrodesConnectionsBox">
+      <property name="geometry">
+       <rect>
+        <x>125</x>
+        <y>83</y>
+        <width>50</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="NeuronsConnectionsLabel">
+      <property name="geometry">
+       <rect>
+        <x>5</x>
+        <y>60</y>
+        <width>115</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Neurons connections:</string>
+      </property>
+     </widget>
+     <widget class="QSpinBox" name="NeuronsConnectionsBox">
+      <property name="geometry">
+       <rect>
+        <x>125</x>
+        <y>56</y>
+        <width>50</width>
+        <height>22</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="ElectrodesCounnectionsLabel">
+      <property name="geometry">
+       <rect>
+        <x>5</x>
+        <y>87</y>
+        <width>115</width>
+        <height>13</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Electrodes connections:</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="TabLoad">
+     <attribute name="title">
+      <string>Load</string>
+     </attribute>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="SaveButton">
+   <property name="geometry">
+    <rect>
+     <x>225</x>
+     <y>174</y>
+     <width>80</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="BufferGroupBox">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>160</y>
+     <width>120</width>
+     <height>37</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Buffered output</string>
+   </property>
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <widget class="QSpinBox" name="BufferValue">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>15</y>
+      <width>80</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>2</number>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
