@@ -10,7 +10,7 @@ from PyQt5.QtGui import QIntValidator, QPainter, QColor, QBrush
 from gui_consts import *
 
 # window class
-class SettingsWindow(QWidget):
+class NetworkSettingsWindow(QWidget):
     # parent
     __parent = None
 
@@ -22,7 +22,7 @@ class SettingsWindow(QWidget):
         parent.setEnabled(False)
         parent.worker.pause()
 
-        uic.loadUi('GUI/forms/settings_form.ui', self)
+        uic.loadUi('GUI/forms/network_settings_form.ui', self)
         self.init_ui()
 
         self.show()

@@ -14,11 +14,16 @@ class ParametersWindow(QWidget):
     # network
     __network = None
 
+    #parent
+    __parent = None
+
     # Initialization
-    def __init__(self, network):
+    def __init__(self, parent):
         super().__init__()
 
-        self.__network = network
+        self.__network = parent.ntw
+        parent.NeuronParametersButton.setEnabled(False)
+        self.__parent = parent
 
         uic.loadUi('GUI/forms/neuron_parameters_form.ui', self)
         self.init_ui()
@@ -28,6 +33,10 @@ class ParametersWindow(QWidget):
     # Window UI
     def init_ui(self):
         pass
+
+    # override
+    def closeEvent(self, event):
+        self.__parent.NeuronParametersButton.setEnabled(True)
 
     # Message Box
     def message_box(self, text, title=MESSAGE_TEXT):
