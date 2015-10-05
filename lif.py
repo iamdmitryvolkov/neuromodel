@@ -4,6 +4,7 @@
 
 
 import math
+from injector_consts import *
 
 class Neuron:
     
@@ -32,16 +33,6 @@ class Neuron:
     __membraneResource = 10
     __membraneResourceLimit = 2
 
-    # parameters injector's ID
-    _INJECTOR_ID_STIM_THRESHOLD = 4
-    _INJECTOR_ID_BRAKE_THRESHOLD = 5
-    _INJECTOR_ID_STABILITY_LIMIT = 6
-    _INJECTOR_ID_STIM_RELAX_TIME = 7
-    _INJECTOR_ID_STABILITY_RELAX_TIME = 8
-    _INJECTOR_ID_RESISTANCE = 9
-    _INJECTOR_ID_RELAXED_STIM = 10
-    _INJECTOR_ID_RESOURCE_MAX = 11
-    _INJECTOR_ID_RESOURCE_LIMIT = 12
 
     def __init__(self):
         self.__stabScaleFactor = -4.6/self.__stabilityLimit
@@ -122,23 +113,23 @@ class Neuron:
         return b
         
     def inject_parameter(self, id, value):
-        if (id == self._INJECTOR_ID_BRAKE_THRESHOLD):
+        if (id == _INJECTOR_ID_BRAKE_THRESHOLD):
             self.__vThreshold = value
-        elif (id == self._INJECTOR_ID_RELAXED_STIM):
+        elif (id == _INJECTOR_ID_RELAXED_STIM):
             self.__relaxedUPotential = value
-        elif (id == self._INJECTOR_ID_RESISTANCE):
+        elif (id == _INJECTOR_ID_RESISTANCE):
             self.__resistance = value
-        elif (id == self._INJECTOR_ID_RESOURCE_LIMIT):
+        elif (id == _INJECTOR_ID_RESOURCE_LIMIT):
             self.__membraneResourceLimit = value
-        elif (id == self._INJECTOR_ID_RESOURCE_MAX):
+        elif (id == _INJECTOR_ID_RESOURCE_MAX):
             self.__membraneResourceMax = value
-        elif (id == self._INJECTOR_ID_STABILITY_LIMIT):
+        elif (id == _INJECTOR_ID_STABILITY_LIMIT):
             self.__stabilityLimit = value
-        elif (id == self._INJECTOR_ID_STABILITY_RELAX_TIME):
+        elif (id == _INJECTOR_ID_STABILITY_RELAX_TIME):
             self.__sRelaxTime = value
-        elif (id == self._INJECTOR_ID_STIM_RELAX_TIME):
+        elif (id == _INJECTOR_ID_STIM_RELAX_TIME):
             self.__uRelaxTime = value
-        elif (id == self._INJECTOR_ID_STIM_THRESHOLD):
+        elif (id == _INJECTOR_ID_STIM_THRESHOLD):
             self.__uThreshold = value
 
     def get_u_potential(self):

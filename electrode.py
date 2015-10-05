@@ -26,6 +26,3 @@ class Electrode:
 
     def get_charge(self):
         return self.__charge
-
-    # parameters injector's ID
-    _INJECTOR_ID_ELECTRODE_THRESHOLD = 3

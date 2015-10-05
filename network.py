@@ -7,6 +7,7 @@ import random
 import math
 from lif import *
 from electrode import *
+from injector_consts import *
 
 
 class Network:
@@ -33,11 +34,6 @@ class Network:
 
     # gui
     __gui = None
-
-    # parameters injector's ID
-    _INJECTOR_ID_STIM_CURRENT = 0
-    _INJECTOR_ID_NOIZE_STIM_CURRENT = 1
-    _INJECTOR_ID_SYN_STEP = 2
 
     def __init__(self, electrodes=8, neuronsPerElectrod=9, electrodeEnteres=4, neuronsEnteres=15, parentGui=None):
         if parentGui != None:
@@ -359,11 +355,11 @@ class Network:
         if (id > 3):
             for i in self.__neuList:
                 i.inject_parameter(id,value)
-        elif(id == self._INJECTOR_ID_STIM_CURRENT):
+        elif(id == _INJECTOR_ID_STIM_CURRENT):
             self.__stimCurrent = value
-        elif(id == self._INJECTOR_ID_NOIZE_STIM_CURRENT):
+        elif(id == _INJECTOR_ID_NOIZE_STIM_CURRENT):
             self.__noize_stim_current = value
-        elif(id == self._INJECTOR_ID_SYN_STEP):
+        elif(id == _INJECTOR_ID_SYN_STEP):
             self.__syn_step = value
         elif(id == 3):
             for i in self.__eleList:
