@@ -8,8 +8,6 @@ from PyQt5.QtGui import QIntValidator, QPainter, QColor, QBrush
 
 # GUI
 from gui_network_worker import *
-from gui_neuron_parameters_window import *
-from gui_settings_window import *
 from gui_consts import *
 
 # network
@@ -35,7 +33,6 @@ class NetworkWindow(QWidget):
         self.ntw = Network(electrodes=9, neuronsPerElectrod=9, electrodeEnteres=4, neuronsEnteres=15,
                            parentGui=self.worker)
         self.show()
-
 
     # Window UI
     def init_ui(self):

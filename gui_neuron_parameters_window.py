@@ -7,43 +7,27 @@ from PyQt5.QtWidgets import QApplication, QTabWidget, QMessageBox, QWidget
 from PyQt5.QtGui import QIntValidator, QPainter, QColor, QBrush
 
 # GUI
-from gui_network_worker import *
-from gui_neuron_parameters_window import *
-from gui_settings_window import *
 from gui_consts import *
 
-# network
-from network import *
-
-
 # window class
-class NetworkWindow(QWidget):
+class ParametersWindow(QWidget):
     # network
-    ntw = None
-
-    # worker
-    worker = None
+    __network = None
 
     # Initialization
-    def __init__(self):
+    def __init__(self, network):
         super().__init__()
 
-        uic.loadUi('GUI/forms/main_form.ui', self)
+        self.__network = network
+
+        uic.loadUi('GUI/forms/neuron_parameters_form.ui', self)
         self.init_ui()
 
-        self.worker = NetworkWorker(self)
-        self.ntw = Network(electrodes=9, neuronsPerElectrod=9, electrodeEnteres=4, neuronsEnteres=15,
-                           parentGui=self.worker)
         self.show()
-
 
     # Window UI
     def init_ui(self):
         pass
-
-    # override
-    def closeEvent(self, event):
-        self.worker.end_worker()
 
     # Message Box
     def message_box(self, text, title=MESSAGE_TEXT):

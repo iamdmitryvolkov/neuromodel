@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>310</width>
-    <height>202</height>
+    <height>222</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>310</width>
-    <height>202</height>
+    <height>222</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>310</width>
-    <height>202</height>
+    <height>222</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -47,7 +47,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="TabNew">
      <attribute name="title">
@@ -56,9 +56,9 @@
      <widget class="QLabel" name="NeuronsCountLabel">
       <property name="geometry">
        <rect>
-        <x>5</x>
+        <x>10</x>
         <y>9</y>
-        <width>115</width>
+        <width>230</width>
         <height>13</height>
        </rect>
       </property>
@@ -69,7 +69,7 @@
      <widget class="QSpinBox" name="NeuronsCountBox">
       <property name="geometry">
        <rect>
-        <x>125</x>
+        <x>240</x>
         <y>5</y>
         <width>50</width>
         <height>22</height>
@@ -79,7 +79,7 @@
      <widget class="QSpinBox" name="ElectrodesCountBox">
       <property name="geometry">
        <rect>
-        <x>125</x>
+        <x>240</x>
         <y>32</y>
         <width>50</width>
         <height>22</height>
@@ -89,9 +89,9 @@
      <widget class="QLabel" name="ElectrodesCountLabel">
       <property name="geometry">
        <rect>
-        <x>5</x>
+        <x>10</x>
         <y>36</y>
-        <width>115</width>
+        <width>230</width>
         <height>13</height>
        </rect>
       </property>
@@ -102,7 +102,7 @@
      <widget class="QSpinBox" name="ElectrodesConnectionsBox">
       <property name="geometry">
        <rect>
-        <x>125</x>
+        <x>240</x>
         <y>83</y>
         <width>50</width>
         <height>22</height>
@@ -112,9 +112,9 @@
      <widget class="QLabel" name="NeuronsConnectionsLabel">
       <property name="geometry">
        <rect>
-        <x>5</x>
+        <x>10</x>
         <y>60</y>
-        <width>115</width>
+        <width>230</width>
         <height>13</height>
        </rect>
       </property>
@@ -125,7 +125,7 @@
      <widget class="QSpinBox" name="NeuronsConnectionsBox">
       <property name="geometry">
        <rect>
-        <x>125</x>
+        <x>240</x>
         <y>56</y>
         <width>50</width>
         <height>22</height>
@@ -135,9 +135,9 @@
      <widget class="QLabel" name="ElectrodesCounnectionsLabel">
       <property name="geometry">
        <rect>
-        <x>5</x>
+        <x>10</x>
         <y>87</y>
-        <width>115</width>
+        <width>230</width>
         <height>13</height>
        </rect>
       </property>
@@ -150,6 +150,104 @@
      <attribute name="title">
       <string>Load</string>
      </attribute>
+     <widget class="QComboBox" name="LoadTypeComboBox">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>100</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Last</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Saved</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>From matrix</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QComboBox" name="SelectSavedFileComBoBox">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>10</y>
+        <width>170</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <item>
+       <property name="text">
+        <string>Select saved file</string>
+       </property>
+      </item>
+     </widget>
+     <widget class="QLineEdit" name="ElectrodesMatrixLineEdit">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>71</y>
+        <width>160</width>
+        <height>23</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="NeuronsMatrixLineEdit">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>43</y>
+        <width>160</width>
+        <height>23</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="RestoreStateCheckBox">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>44</y>
+        <width>110</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Restore State</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="PathButton">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>71</y>
+        <width>110</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Select path</string>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
@@ -157,7 +255,7 @@
    <property name="geometry">
     <rect>
      <x>225</x>
-     <y>174</y>
+     <y>191</y>
      <width>80</width>
      <height>23</height>
     </rect>
@@ -172,7 +270,7 @@
      <x>5</x>
      <y>160</y>
      <width>120</width>
-     <height>37</height>
+     <height>57</height>
     </rect>
    </property>
    <property name="title">
@@ -188,15 +286,31 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>15</y>
+      <y>25</y>
       <width>80</width>
       <height>22</height>
      </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
     <property name="minimum">
      <number>2</number>
     </property>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="ResetButton">
+   <property name="geometry">
+    <rect>
+     <x>225</x>
+     <y>163</y>
+     <width>80</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Reset All</string>
+   </property>
   </widget>
  </widget>
  <resources/>
