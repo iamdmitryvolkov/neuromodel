@@ -355,11 +355,11 @@ class Network:
         if (id > 3):
             for i in self.__neuList:
                 i.inject_parameter(id,value)
-        elif(id == _INJECTOR_ID_STIM_CURRENT):
+        elif(id == INJECTOR_ID_STIM_CURRENT):
             self.__stimCurrent = value
-        elif(id == _INJECTOR_ID_NOIZE_STIM_CURRENT):
+        elif(id == INJECTOR_ID_NOIZE_STIM_CURRENT):
             self.__noize_stim_current = value
-        elif(id == _INJECTOR_ID_SYN_STEP):
+        elif(id == INJECTOR_ID_SYN_STEP):
             self.__syn_step = value
         elif(id == 3):
             for i in self.__eleList:

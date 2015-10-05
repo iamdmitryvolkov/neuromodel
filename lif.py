@@ -113,23 +113,23 @@ class Neuron:
         return b
         
     def inject_parameter(self, id, value):
-        if (id == _INJECTOR_ID_BRAKE_THRESHOLD):
+        if (id == INJECTOR_ID_BRAKE_THRESHOLD):
             self.__vThreshold = value
-        elif (id == _INJECTOR_ID_RELAXED_STIM):
+        elif (id == INJECTOR_ID_RELAXED_STIM):
             self.__relaxedUPotential = value
-        elif (id == _INJECTOR_ID_RESISTANCE):
+        elif (id == INJECTOR_ID_RESISTANCE):
             self.__resistance = value
-        elif (id == _INJECTOR_ID_RESOURCE_LIMIT):
+        elif (id == INJECTOR_ID_RESOURCE_LIMIT):
             self.__membraneResourceLimit = value
-        elif (id == _INJECTOR_ID_RESOURCE_MAX):
+        elif (id == INJECTOR_ID_RESOURCE_MAX):
             self.__membraneResourceMax = value
-        elif (id == _INJECTOR_ID_STABILITY_LIMIT):
+        elif (id == INJECTOR_ID_STABILITY_LIMIT):
             self.__stabilityLimit = value
-        elif (id == _INJECTOR_ID_STABILITY_RELAX_TIME):
+        elif (id == INJECTOR_ID_STABILITY_RELAX_TIME):
             self.__sRelaxTime = value
-        elif (id == _INJECTOR_ID_STIM_RELAX_TIME):
+        elif (id == INJECTOR_ID_STIM_RELAX_TIME):
             self.__uRelaxTime = value
-        elif (id == _INJECTOR_ID_STIM_THRESHOLD):
+        elif (id == INJECTOR_ID_STIM_THRESHOLD):
             self.__uThreshold = value
 
     def get_u_potential(self):
