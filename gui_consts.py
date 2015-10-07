@@ -2,8 +2,8 @@
 # 30.09.2015 Dmitry Volkov
 
 # Const
-WWIDTH = 250
-WHEIGHT = 147
+WWIDTH = 310
+WHEIGHT = 222
 SLEEP_TIME_MAINLOOP = 0.75
 
 #Text
