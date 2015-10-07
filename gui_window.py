@@ -65,6 +65,10 @@ class NetworkWindow(QWidget):
     def message_box(self, text, title=MESSAGE_TEXT):
         QMessageBox.question(self, title, text, QMessageBox.Ok)
 
+    # Buffered printer
+    def printData(self, data):
+        print(data)
+
     # subs methods
     def sub_start_pause(self):
         self.worker.flip_running()

@@ -49,4 +49,11 @@ class NetworkWorker(threading.Thread):
 
     # model output callback
     def drawInfo(self, info):
-        print(info)
+        result = "["
+        for i in info:
+            if i:
+                a = "1"
+            else:
+                a = " "
+            result += a
+        self.parent.printData(result + "]")
