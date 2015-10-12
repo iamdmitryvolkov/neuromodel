@@ -34,6 +34,7 @@ class SettingsWindow(QWidget):
     # override
     def closeEvent(self, event):
         self.__parent.setEnabled(True)
+        self.__parent.worker.resume()
 
     # Message Box
     def message_box(self, text, title=MESSAGE_TEXT):

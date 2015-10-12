@@ -24,5 +24,8 @@ class Electrode:
     def set_threshold(self, val):
         self.__threshold = val
 
+    def get_threshold(self):
+        return self.__threshold
+
     def get_charge(self):
         return self.__charge

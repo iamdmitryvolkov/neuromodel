@@ -61,6 +61,30 @@ class Neuron:
         
     def getThreshold(self):
         return self.__uThreshold
+
+    def get_brake_threshold(self):
+        return self.__vThreshold
+
+    def get_stability_limit(self):
+        return self.__stabilityLimit
+
+    def get_stim_relax_time(self):
+        return self.__uRelaxTime
+
+    def get_stability_relax_time(self):
+        return self.__sRelaxTime
+
+    def get_resistance(self):
+        return self.__resistance
+
+    def get_relaxed_stim(self):
+        return self.__relaxedUPotential
+
+    def get_resource_max(self):
+        return self.__membraneResourceMax
+
+    def get_resource_limit(self):
+        return self.__membraneResourceLimit
     
     def setStabilityInfo(self, info):
         j = 0

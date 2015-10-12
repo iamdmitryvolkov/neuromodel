@@ -2,9 +2,8 @@
 # 30.09.2015 Dmitry Volkov
 
 # QT5
-from PyQt5 import QtCore, QtGui, QtWidgets, uic
-from PyQt5.QtWidgets import QApplication, QTabWidget, QMessageBox, QWidget
-from PyQt5.QtGui import QIntValidator, QPainter, QColor, QBrush
+from PyQt5 import QtWidgets, uic
+from PyQt5.QtWidgets import QMessageBox, QWidget
 
 # GUI
 from gui_network_worker import *
@@ -25,6 +24,9 @@ class NetworkWindow(QWidget):
     # worker
     worker = None
 
+    #child
+    child  = None
+
     # Initialization
     def __init__(self):
         super().__init__()
@@ -36,7 +38,6 @@ class NetworkWindow(QWidget):
         self.ntw = Network(electrodes=9, neuronsPerElectrod=9, electrodeEnteres=4, neuronsEnteres=15,
                            parentGui=self.worker)
         if self.ntw.getNoize()[0]:
-            self
             self.NoizeTypeComboBox.setCurrentIndex(0)
             self.NoizeValueSpinBox.setMaximum(100)
             self.NoizeValueSpinBox.setValue(self.ntw.getNoize()[1])
@@ -52,14 +53,21 @@ class NetworkWindow(QWidget):
         self.StartStopButton.clicked.connect(self.sub_start_pause)
         self.NeuronParametersButton.clicked.connect(self.sub_neuron_params)
         self.NetworkButton.clicked.connect(self.sub_network_settings)
+        self.NetworkButton.setEnabled(False)
         self.SettingsButton.clicked.connect(self.sub_app_settings)
+        self.SettingsButton.setEnabled(False)
         self.NoizeTypeComboBox.currentIndexChanged.connect(self.sub_select_noize_type)
         self.NoizeValueSpinBox.valueChanged.connect(self.sub_select_noize_value)
 
     # override
     def closeEvent(self, event):
-        self.child = None
-        self.worker.end_worker()
+        if not self.worker is None:
+            self.worker.end_worker()
+            self.worker.join()
+        if not self.child is None:
+            self.child.close()
+            self.child = None
+
 
     # Message Box
     def message_box(self, text, title=MESSAGE_TEXT):
@@ -77,9 +85,13 @@ class NetworkWindow(QWidget):
         self.child = ParametersWindow(self)
 
     def sub_network_settings(self):
+        self.NeuronParametersButton.setEnabled(True)
+        self.worker.suspend()
         self.child = NetworkSettingsWindow(self)
 
     def sub_app_settings(self):
+        self.NeuronParametersButton.setEnabled(True)
+        self.worker.suspend()
         self.child = SettingsWindow(self)
 
     def sub_select_noize_type(self, index):

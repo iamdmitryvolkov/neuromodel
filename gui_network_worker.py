@@ -14,8 +14,8 @@ class NetworkWorker(threading.Thread):
 
     work = True
     running = False
-
-    forceStim = False
+    join_parameter = False
+    suspend_running = False
 
     def __init__(self, parent):
         self.parent = parent
@@ -25,6 +25,7 @@ class NetworkWorker(threading.Thread):
 
     def main_loop(self):
         while self.work:
+            self.join_parameter = False
             if self.running:
                 if self.parent.ntw != None:
                     self.parent.ntw.step()
@@ -57,3 +58,17 @@ class NetworkWorker(threading.Thread):
                 a = " "
             result += a
         self.parent.printData(result + "]")
+
+    # suspend working status
+    def suspend(self):
+        self.suspend_running = self.running
+
+    # stop suspend
+    def resume(self):
+        self.running = self.suspend_running
+        self.suspend_running = False
+
+    def join(self):
+        self.join_parameter = True
+        while (self.join_parameter and self.work):
+            time.sleep(SLEEP_TIME_JOIN)

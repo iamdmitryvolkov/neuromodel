@@ -352,7 +352,7 @@ class Network:
             self.setAllActive()
 
     def inject_parameter(self, id, value):
-        if (id > 3):
+        if (id > INJECTOR_ID_SYN_STEP):
             for i in self.__neuList:
                 i.inject_parameter(id,value)
         elif(id == INJECTOR_ID_STIM_CURRENT):
@@ -361,9 +361,48 @@ class Network:
             self.__noize_stim_current = value
         elif(id == INJECTOR_ID_SYN_STEP):
             self.__syn_step = value
-        elif(id == 3):
+        elif(id == INJECTOR_ID_ELECTRODE_THRESHOLD):
             for i in self.__eleList:
                 i.set_threshold(value)
+
+    def get_parameter(self, id):
+        if id == INJECTOR_ID_ELECTRODE_THRESHOLD:
+            if len(self.__eleList) > 0:
+                return self.__eleList[0].get_threshold()
+        elif id == INJECTOR_ID_STIM_CURRENT:
+            return self.__stimCurrent
+        elif id == INJECTOR_ID_NOIZE_STIM_CURRENT:
+            return self.__noize_stim_current
+        elif id == INJECTOR_ID_SYN_STEP:
+            return self.__syn_step
+        elif id == INJECTOR_ID_STIM_THRESHOLD:
+            if len(self.__neuList) > 0:
+                return self.__neuList[0].getThreshold()
+        elif id == INJECTOR_ID_BRAKE_THRESHOLD:
+            if len(self.__neuList) > 0:
+                return self.__neuList[0].get_brake_threshold()
+        elif id == INJECTOR_ID_STABILITY_LIMIT:
+            if len(self.__neuList) > 0:
+                return self.__neuList[0].get_stability_limit()
+        elif id == INJECTOR_ID_STIM_RELAX_TIME:
+            if len(self.__neuList) > 0:
+                return self.__neuList[0].get_stim_relax_time()
+        elif id == INJECTOR_ID_STABILITY_RELAX_TIME:
+            if len(self.__neuList) > 0:
+                return self.__neuList[0].get_stability_relax_time()
+        elif id == INJECTOR_ID_RESISTANCE:
+            if len(self.__neuList) > 0:
+                return self.__neuList[0].get_resistance()
+        elif id == INJECTOR_ID_RELAXED_STIM:
+            if len(self.__neuList) > 0:
+                return self.__neuList[0].get_relaxed_stim()
+        elif id == INJECTOR_ID_RESOURCE_MAX:
+            if len(self.__neuList) > 0:
+                return self.__neuList[0].get_resource_max()
+        elif id == INJECTOR_ID_RESOURCE_LIMIT:
+            if len(self.__neuList) > 0:
+                return self.__neuList[0].get_resource_limit()
+        return None
 
     def get_spike_status(self, number):
         return self.__neuList[number].getSpikeStatus()
