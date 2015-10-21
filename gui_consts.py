@@ -7,7 +7,12 @@ WHEIGHT = 222
 SLEEP_TIME_MAINLOOP = 0.75
 SLEEP_TIME_JOIN = 0.1
 
-#Text
+# Text
 SMALL_SCREEN_TEXT = "Sorry, you screen is too small"
 MESSAGE_TEXT = "Message"
 INJECTOR_CONSTS_COUNT = 13
+SETTING_KEY_SPLITTER = "#"
+
+# file
+SETTINGS_FILEPATH = "./GUI/settings.txt"
+TEMPFILE = "./GUI/temp"

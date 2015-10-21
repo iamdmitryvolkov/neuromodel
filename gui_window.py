@@ -15,6 +15,8 @@ from gui_consts import *
 # network
 from network import *
 
+# util
+from fs_worker import *
 
 # window class
 class NetworkWindow(QWidget):
@@ -35,8 +37,19 @@ class NetworkWindow(QWidget):
         self.init_ui()
 
         self.worker = NetworkWorker(self)
-        self.ntw = Network(electrodes=9, neuronsPerElectrod=9, electrodeEnteres=4, neuronsEnteres=15,
-                           parentGui=self.worker)
+
+        # load matrix
+        self.ntw = Network(1, 1, 0, 0, parentGui = self.worker)
+        m = load_matrix("matrix/ele.txt")
+        if (not m is None):
+            self.ntw.ele_matrix_put(m)
+            print("Electrodes matrix successfully loaded")
+        m = load_matrix("matrix/neu.txt")
+        if (not m is None):
+            self.ntw.neu_matrix_put(m)
+            print("Neurons matrix successfully loaded")
+        # restoring state
+
         if self.ntw.getNoize()[0]:
             self.NoizeTypeComboBox.setCurrentIndex(0)
             self.NoizeValueSpinBox.setMaximum(100)
@@ -55,7 +68,6 @@ class NetworkWindow(QWidget):
         self.NetworkButton.clicked.connect(self.sub_network_settings)
         self.NetworkButton.setEnabled(False)
         self.SettingsButton.clicked.connect(self.sub_app_settings)
-        self.SettingsButton.setEnabled(False)
         self.NoizeTypeComboBox.currentIndexChanged.connect(self.sub_select_noize_type)
         self.NoizeValueSpinBox.valueChanged.connect(self.sub_select_noize_value)
 

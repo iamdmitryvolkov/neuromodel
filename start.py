@@ -4,6 +4,7 @@
 
 import numpy
 from network import *
+from fs_worker import *
 
 ntw = Network(1, 1, 0, 0);
 
@@ -232,49 +233,6 @@ def neurons(text_string):
             print("Successfully loaded")
     else:
         valErr()
-
-
-def fs_error():
-    print("Error working with filesystem")
-
-
-def save_matrix(matrix, filename):
-    try:
-        file = open(filename, "tw")
-        for i in range(len(matrix)):
-            file.write(", ".join(str(j) for j in matrix[i]) + "\n")
-        file.close()
-        print("Successfully saved")
-    except Exception:
-        fs_error()
-
-
-def load_matrix(filename):
-    try:
-        file = open(filename, "tr")
-        array = []
-        max_len = 0
-
-        for line in file:
-            array_line = []
-            for num in line.split(", "):
-                array_line.append(float(num))
-            l = len(array_line)
-            array.append(array_line)
-            if (l > max_len):
-                max_len = l
-        file.close()
-
-        for i in range(len(array)):
-            delta = max_len - len(array[i])
-            for j in range(delta):
-                array[i].append(0)
-
-        return numpy.array(array)
-
-    except Exception:
-        fs_error()
-        return None
 
 
 while bool(1):

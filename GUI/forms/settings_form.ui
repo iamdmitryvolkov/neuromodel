@@ -69,21 +69,33 @@
      <widget class="QSpinBox" name="NeuronsCountBox">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>190</x>
         <y>5</y>
-        <width>50</width>
+        <width>100</width>
         <height>22</height>
        </rect>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>5000</number>
       </property>
      </widget>
      <widget class="QSpinBox" name="ElectrodesCountBox">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>190</x>
         <y>32</y>
-        <width>50</width>
+        <width>100</width>
         <height>22</height>
        </rect>
+      </property>
+      <property name="minimum">
+       <number>1</number>
+      </property>
+      <property name="maximum">
+       <number>1000</number>
       </property>
      </widget>
      <widget class="QLabel" name="ElectrodesCountLabel">
@@ -102,11 +114,14 @@
      <widget class="QSpinBox" name="ElectrodesConnectionsBox">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>190</x>
         <y>83</y>
-        <width>50</width>
+        <width>100</width>
         <height>22</height>
        </rect>
+      </property>
+      <property name="maximum">
+       <number>1</number>
       </property>
      </widget>
      <widget class="QLabel" name="NeuronsConnectionsLabel">
@@ -125,11 +140,14 @@
      <widget class="QSpinBox" name="NeuronsConnectionsBox">
       <property name="geometry">
        <rect>
-        <x>240</x>
+        <x>190</x>
         <y>56</y>
-        <width>50</width>
+        <width>100</width>
         <height>22</height>
        </rect>
+      </property>
+      <property name="maximum">
+       <number>1</number>
       </property>
      </widget>
      <widget class="QLabel" name="ElectrodesCounnectionsLabel">
@@ -175,9 +193,9 @@
        </property>
       </item>
      </widget>
-     <widget class="QComboBox" name="SelectSavedFileComBoBox">
+     <widget class="QComboBox" name="SelectSavedFileComboBox">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
@@ -195,7 +213,7 @@
      </widget>
      <widget class="QLineEdit" name="ElectrodesMatrixLineEdit">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
@@ -208,7 +226,7 @@
      </widget>
      <widget class="QLineEdit" name="NeuronsMatrixLineEdit">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
@@ -234,7 +252,7 @@
      </widget>
      <widget class="QPushButton" name="PathButton">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
       </property>
       <property name="geometry">
        <rect>
@@ -296,6 +314,9 @@
     </property>
     <property name="minimum">
      <number>2</number>
+    </property>
+    <property name="maximum">
+     <number>1000</number>
     </property>
    </widget>
   </widget>
