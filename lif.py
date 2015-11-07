@@ -6,36 +6,35 @@
 import math
 from injector_consts import *
 
+
 class Neuron:
-    
-    __uThreshold = 7 #threshold of neuron's potential
-    __vThreshold = 7 #brake threshold
-    
-    __stabilityLimit = 10 #beta
-    __stability = 0 #s
-    
-    __uPotential = 0 #u
-    __brakePotential = 0 #v
-    
-    __uRelaxTime = 7 #tao_m
-    __sRelaxTime = 70 #tao_s
-    
-    __resistance = 5 #R
-    __relaxedUPotential = 0 #u_r
-    
-    #new data for next step
-    __sinapseCurrent = 0 #I_synap
-    __stimulationCurrent = 0 #I_stim
-    __nextBrakePotential = 0 #v
-    
+    __uThreshold = 7  # threshold of neuron's potential
+    __vThreshold = 7  # brake threshold
+
+    __stabilityLimit = 10  # beta
+    __stability = 0  # s
+
+    __uPotential = 0  # u
+    __brakePotential = 0  # v
+
+    __uRelaxTime = 7  # tao_m
+    __sRelaxTime = 70  # tao_s
+
+    __resistance = 5  # R
+    __relaxedUPotential = 0  # u_r
+
+    # new data for next step
+    __sinapseCurrent = 0  # I_synap
+    __stimulationCurrent = 0  # I_stim
+    __nextBrakePotential = 0  # v
+
     __stabScaleFactor = 1
     __membraneResourceMax = 10
     __membraneResource = 10
     __membraneResourceLimit = 2
 
-
     def __init__(self):
-        self.__stabScaleFactor = -4.6/self.__stabilityLimit
+        self.__stabScaleFactor = -4.6 / self.__stabilityLimit
         self.__membraneResource = self.__membraneResourceMax
 
     def reinit(self):
@@ -45,20 +44,21 @@ class Neuron:
         self.__brakePotential = 0
 
     def stabilityScale(self):
-        return math.pow(math.e,self.__stability*self.__stabScaleFactor)
-    
+        return math.pow(math.e, self.__stability * self.__stabScaleFactor)
+
     def stimulate(self, current):
         self.__stimulationCurrent = current
-    
+
     def getSpikeStatus(self):
-        return ((self.__uPotential >= self.__uThreshold) and (self.__brakePotential < self.__vThreshold) and (self.__membraneResource > self.__membraneResourceLimit))
-    
+        return ((self.__uPotential >= self.__uThreshold) and (self.__brakePotential < self.__vThreshold) and (
+            self.__membraneResource > self.__membraneResourceLimit))
+
     def getStability(self):
         return self.__stability
-    
+
     def setSinapseCurrent(self, data):
         self.__sinapseCurrent = data
-        
+
     def getThreshold(self):
         return self.__uThreshold
 
@@ -85,7 +85,7 @@ class Neuron:
 
     def get_resource_limit(self):
         return self.__membraneResourceLimit
-    
+
     def setStabilityInfo(self, info):
         j = 0
         s = 0
@@ -95,47 +95,49 @@ class Neuron:
                 s = s - i
         s = s + j * self.__stability
         self.__nextBrakePotential = s
-        
+
     def step(self):
-        
-        #membraneResource [in/de]creasing
+
+        # membraneResource [in/de]creasing
         if (self.getSpikeStatus()):
             self.__membraneResource = self.__membraneResource - 1
         else:
-            self.__membraneResource = min(self.__membraneResource*(1+1/self.__membraneResourceMax), self.__membraneResourceMax)
-        
-        #calculating u potential
+            self.__membraneResource = min(self.__membraneResource * (1 + 1 / self.__membraneResourceMax),
+                                          self.__membraneResourceMax)
+
+        # calculating u potential
         if (self.__uPotential >= self.__uThreshold):
             self.__uPotential = 0
-            #self.__stimPotential =  - self.__stimPotential
-        
-        u = - (self.__uPotential - self.__relaxedUPotential) + self.__resistance * (self.__sinapseCurrent + self.__stimulationCurrent)
-        
+            # self.__stimPotential =  - self.__stimPotential
+
+        u = - (self.__uPotential - self.__relaxedUPotential) + self.__resistance * (
+            self.__sinapseCurrent + self.__stimulationCurrent)
+
         self.__uPotential = self.__uPotential + u / self.__uRelaxTime
-        
-        #calculating v potential
+
+        # calculating v potential
         self.__brakePotential = self.__nextBrakePotential
-        
-        #calculating stability
-        if (self.__uPotential >= self.__uThreshold):
-            if (self.__brakePotential >= self.__vThreshold):
+
+        # calculating stability
+        if self.__uPotential >= self.__uThreshold:
+            if self.__brakePotential >= self.__vThreshold:
                 b = - self.__stabilityLimit
             else:
                 b = self.__stabilityLimit
         else:
             b = 0
-        
+
         self.__stability = self.__stability + (b - self.__stability) * self.stabilityScale() / self.__sRelaxTime
         if (self.__stability < 0):
             self.__stability = 0
-        
-        #zeroing vars
+
+        # zeroing vars
         self.__sinapseCurrent = 0
         self.__stimulationCurrent = 0
         self.__nextBrakePotential = 0
-        
+
         return b
-        
+
     def inject_parameter(self, id, value):
         if (id == INJECTOR_ID_BRAKE_THRESHOLD):
             self.__vThreshold = value
@@ -167,3 +169,25 @@ class Neuron:
 
     def get_membrane_resource(self):
         return self.__membraneResource
+
+    def set_state(self, state):
+        self.__stability = state[0]
+        self.__uPotential = state[1]
+        self.__brakePotential = state[2]
+        self.__sinapseCurrent = state[3]
+        self.__stimulationCurrent = state[4]
+        self.__nextBrakePotential = state[5]
+        self.__stabScaleFactor = state[6]
+        self.__membraneResource = state[7]
+
+    def get_state(self):
+        result = []
+        result.append(self.__stability)
+        result.append(self.__uPotential)
+        result.append(self.__brakePotential)
+        result.append(self.__sinapseCurrent)
+        result.append(self.__stimulationCurrent)
+        result.append(self.__nextBrakePotential)
+        result.append(self.__stabScaleFactor)
+        result.append(self.__membraneResource)
+        return result

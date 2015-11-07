@@ -29,7 +29,7 @@
   <widget class="QLabel" name="FromLabel">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>30</x>
      <y>31</y>
      <width>59</width>
      <height>15</height>
@@ -42,7 +42,7 @@
   <widget class="QLabel" name="ToLabel">
    <property name="geometry">
     <rect>
-     <x>135</x>
+     <x>160</x>
      <y>31</y>
      <width>59</width>
      <height>15</height>
@@ -55,7 +55,7 @@
   <widget class="QSpinBox" name="FromSpinBox">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>30</x>
      <y>51</y>
      <width>80</width>
      <height>24</height>
@@ -68,7 +68,7 @@
   <widget class="QSpinBox" name="ToSpinBox">
    <property name="geometry">
     <rect>
-     <x>135</x>
+     <x>160</x>
      <y>51</y>
      <width>80</width>
      <height>24</height>

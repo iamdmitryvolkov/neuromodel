@@ -35,10 +35,12 @@ class NetworkWorker(threading.Thread):
     # stop app
     def end_worker(self):
         self.work = False
+        self.parent.print_now()
 
     # pause work
     def pause(self):
         self.running = False
+        self.parent.print_now()
 
     # start work
     def go(self):
@@ -47,6 +49,7 @@ class NetworkWorker(threading.Thread):
     # flip working
     def flip_running(self):
         self.running = not self.running
+        self.parent.print_now()
 
     # model output callback
     def drawInfo(self, info):
@@ -57,7 +60,7 @@ class NetworkWorker(threading.Thread):
             else:
                 a = " "
             result += a
-        self.parent.printData(result + "]")
+        self.parent.print_data(result + "]")
 
     # suspend working status
     def suspend(self):
@@ -70,5 +73,5 @@ class NetworkWorker(threading.Thread):
 
     def join(self):
         self.join_parameter = True
-        while (self.join_parameter and self.work):
+        while self.join_parameter and self.work:
             time.sleep(SLEEP_TIME_JOIN)

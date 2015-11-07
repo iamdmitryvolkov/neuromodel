@@ -300,8 +300,8 @@ class Network:
                 for i in range(neurs):
                     self.__neuList[i].reinit()
             if (delta != 0):
-                smatrix = numpy.zeros((new_neurs,new_neurs))
-                smatrix[:neurs,:neurs] = self.__synMatrix
+                smatrix = numpy.zeros((new_neurs, new_neurs))
+                smatrix[:neurs, :neurs] = self.__synMatrix
                 self.__synMatrix = smatrix
         else:
             self.__neuList = self.__neuList[:delta]
@@ -309,7 +309,7 @@ class Network:
                 for i in range(new_neurs):
                     self.__neuList[i].reinit()
 
-            self.__synMatrix = self.__synMatrix[:new_neurs,:new_neurs]
+            self.__synMatrix = self.__synMatrix[:new_neurs, :new_neurs]
         if (delta != 0):
             self.setAllActive()
 
@@ -332,15 +332,15 @@ class Network:
                 for i in range(neurs):
                     self.__neuList[i].reinit()
             if (delta != 0):
-                smatrix = numpy.zeros((elects,new_neurs))
-                smatrix[:,:neurs] = self.__electMatrix
+                smatrix = numpy.zeros((elects, new_neurs))
+                smatrix[:, :neurs] = self.__electMatrix
                 self.__electMatrix = smatrix
         else:
             self.__neuList = self.__neuList[:delta]
             if (zeros):
                 for i in range(new_neurs):
                     self.__neuList[i].reinit()
-            self.__electMatrix = self.__electMatrix[:,:delta]
+            self.__electMatrix = self.__electMatrix[:, :delta]
 
         if (zeros):
             for i in range(elects):
@@ -354,14 +354,14 @@ class Network:
     def inject_parameter(self, id, value):
         if (id > INJECTOR_ID_SYN_STEP):
             for i in self.__neuList:
-                i.inject_parameter(id,value)
-        elif(id == INJECTOR_ID_STIM_CURRENT):
+                i.inject_parameter(id, value)
+        elif id == INJECTOR_ID_STIM_CURRENT:
             self.__stimCurrent = value
-        elif(id == INJECTOR_ID_NOIZE_STIM_CURRENT):
+        elif id == INJECTOR_ID_NOIZE_STIM_CURRENT:
             self.__noize_stim_current = value
-        elif(id == INJECTOR_ID_SYN_STEP):
+        elif (id == INJECTOR_ID_SYN_STEP):
             self.__syn_step = value
-        elif(id == INJECTOR_ID_ELECTRODE_THRESHOLD):
+        elif (id == INJECTOR_ID_ELECTRODE_THRESHOLD):
             for i in self.__eleList:
                 i.set_threshold(value)
 
@@ -422,3 +422,22 @@ class Network:
     def get_electrode_current(self, number):
         return self.__eleList[number].get_charge()
 
+    def get_params(self):
+        result = []
+        for i in range(INJECTOR_CONSTS_COUNT):
+            result.append(self.get_parameter(i))
+        return result
+
+    def set_params(self, params):
+        for i in range(INJECTOR_CONSTS_COUNT):
+            self.inject_parameter(i, params[i])
+
+    def get_state(self):
+        result = []
+        for i in range(len(self.__neuList)):
+            result.append(self.__neuList[i].get_state())
+        return result
+
+    def set_state(self, state):
+        for i in range(len(self.__neuList)):
+            self.__neuList[i].set_state(state[i])
