@@ -21,6 +21,7 @@ TEMPFILE = "./GUI/temp"
 SAVES_FILEPATH = "./GUI/save"
 LASTSAVE_FILEPATH = "./GUI/last/save.sv"
 SAVEFILE_FORMAT = ".save"
+ACTYVITY_FILE = "data/data.txt"
 
 # color in settings
 SETTINGS_COLOR_OK = "background-color: rgb(155, 255, 155);"

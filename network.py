@@ -252,7 +252,7 @@ class Network:
                 else:
                     line.append(0)
 
-            self.__gui.drawInfo(line)
+            self.__gui.draw_info(line)
 
     def stimulate(self, ilist):
         for i in ilist:

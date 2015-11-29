@@ -61,14 +61,15 @@ class NetworkWindow(QWidget):
                     self.create_new_network()
             elif(load_type == 2):
                 self.ntw = Network(1, 1, 0, 0, parentGui=self.worker)
-                m = load_matrix("matrix/ele.txt")
+                m = load_matrix(load_parameter(KEY_ELECTRODES_MATRIX_PATH, DEFAULT_ELECTRODES_MATRIX_PATH))
                 if (not m is None):
                     self.ntw.ele_matrix_put(m)
                     print("Electrodes matrix successfully loaded")
-                m = load_matrix("matrix/neu.txt")
+                m = load_matrix(load_parameter(KEY_NEURONS_MATRIX_PATH, DEFAULT_NEURONS_MATRIX_PATH))
                 if (not m is None):
                     self.ntw.neu_matrix_put(m)
                     print("Neurons matrix successfully loaded")
+                self.ntw.setNoize(DEFAULT_NOIZE_TYPE, DEFAULT_NOIZE_VAL)
         else:
             self.create_new_network()
 
@@ -85,6 +86,9 @@ class NetworkWindow(QWidget):
             self.NoizeTypeComboBox.setCurrentIndex(1)
             self.NoizeValueSpinBox.setMaximum(self.ntw.getNeuronsCount())
             self.NoizeValueSpinBox.setValue(self.ntw.getNoize()[1])
+
+        self.worker.set_save_to_file(True)
+
         self.show()
 
     # Window UI
@@ -92,7 +96,7 @@ class NetworkWindow(QWidget):
         self.StartStopButton.clicked.connect(self.sub_start_pause)
         self.NeuronParametersButton.clicked.connect(self.sub_neuron_params)
         self.NetworkButton.clicked.connect(self.sub_network_settings)
-        # self.NetworkButton.setEnabled(False)
+        self.NetworkButton.setEnabled(False)
         self.SettingsButton.clicked.connect(self.sub_app_settings)
         self.NoizeTypeComboBox.currentIndexChanged.connect(self.sub_select_noize_type)
         self.NoizeValueSpinBox.valueChanged.connect(self.sub_select_noize_value)
@@ -118,10 +122,10 @@ class NetworkWindow(QWidget):
 
     # override
     def closeEvent(self, event):
-        if not self.worker is None:
+        if self.worker is not None:
             self.worker.end_worker()
             self.worker.join()
-        if not self.child is None:
+        if self.child is not None:
             self.child.close()
             self.child = None
         # TODO: save last network

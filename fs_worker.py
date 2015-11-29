@@ -8,10 +8,25 @@ from os import remove, rename, listdir
 
 from gui_consts import *
 from injector_consts import *
-
+import pickle
 
 def fs_error():
     print("Error working with filesystem")
+
+
+def get_act_file(filename):
+    file = open(filename, "ta")
+    return file
+
+
+def write_to_act_file(file, data):
+    if file is not None:
+        file.write(", ".join(str(i) for i in data) + "\n")
+
+
+def close_act_file(file):
+    if file is not None:
+        file.close()
 
 
 def load_matrix(filename):
@@ -221,3 +236,19 @@ def save_network_to_file(filename, noize_relative, noize_val, syn_matrix, el_mat
         print("Successfully saved")
     except Exception:
         pass
+
+
+def load_pks(filename):
+    file = open(filename, "rb")
+    data = pickle.load(file)
+    file.close()
+    keys = list(data.keys())
+    ln = len(data[keys[0]])
+    result = []
+    for i in range(ln):
+        line = []
+        for key in keys:
+            line.append(int(data[key][i]))
+        result.append(line)
+    print("data loaded", flush=True)
+    return result

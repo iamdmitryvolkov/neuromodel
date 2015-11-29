@@ -2,7 +2,6 @@
 
 # version 1.1 (10.07.2015)
 
-
 import math
 from injector_consts import *
 
@@ -36,6 +35,7 @@ class Neuron:
     def __init__(self):
         self.__stabScaleFactor = -4.6 / self.__stabilityLimit
         self.__membraneResource = self.__membraneResourceMax
+
 
     def reinit(self):
         self.__membraneResource = self.__membraneResourceMax
