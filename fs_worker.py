@@ -7,7 +7,7 @@ import numpy
 from os import remove, rename, listdir
 
 from gui_consts import *
-from injector_consts import *
+from params_consts import *
 import pickle
 
 def fs_error():
@@ -251,4 +251,17 @@ def load_pks(filename):
             line.append(int(data[key][i]))
         result.append(line)
     print("data loaded", flush=True)
+    return result
+
+
+def save_object(obj, filename):
+    file = open(filename, "wb")
+    pickle.dump(obj, file)
+    file.close()
+
+
+def load_object(filename):
+    file = open(filename, "rb")
+    result = pickle.load(file)
+    file.close()
     return result

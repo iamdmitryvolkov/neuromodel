@@ -10,7 +10,7 @@ from PyQt5.QtGui import QIntValidator, QPainter, QColor, QBrush
 from gui_consts import *
 
 #network
-from injector_consts import *
+from params_consts import *
 
 # window class
 class ParametersWindow(QWidget):

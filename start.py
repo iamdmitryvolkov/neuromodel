@@ -2,258 +2,186 @@
 
 # version 1.1 (10.07.2015)
 
-import numpy
 from network import *
 from fs_worker import *
 
-ntw = Network(1, 1, 0, 0);
+
+class Callback:
+    @staticmethod
+    def draw_info(inform):
+        result = "["
+        for i in inform:
+            if i:
+                a = "1"
+            else:
+                a = " "
+            result += a
+        print(result + "]")
 
 
-def valErr():
+def value_error():
     print("Value Error")
 
 
-def steps(textString):
+def steps(str_count):
     try:
-        for i in range(int(textString)):
-            ntw.step()
+        count = int(str_count)
+        if count > 0:
+            for i in range(int(str_count)):
+                ntw.step()
+        else:
+            value_error()
     except ValueError:
-        valErr()
+        value_error()
 
 
-def noize(textString):
-    ok = True
+def add(string):
     try:
-        val = int(textString[1:])
-    except ValueError:
-        valErr()
-        ok = False
-    if ok:
-        if (textString[0] == 'f'):
-            if (val <= ntw.getNeuronsCount()):
-                ntw.setNoize(False, val)
-            else:
-                valErr()
-        elif (textString[0] == 'r'):
-            if (val <= 100):
-                ntw.setNoize(True, val)
-            else:
-                valErr()
-        else:
-            valErr()
-
-
-def stim(textString):
-    elist = []
-    l = len(textString)
-    for i in range(ntw.getElectrodesCount()):
-        if i == l:
-            break;
-        if (textString[i] == '1'):
-            elist.append(i)
-    ntw.stimulate(elist)
-    ntw.step()
-
-
-def choose(textString):
-    if (textString == 'a'):
-        ntw.setAllActive()
-    else:
-        separator = textString.find('-')
-        if (separator != -1):
-            try:
-                val1 = int(textString[:separator])
-                val2 = int(textString[(separator + 1):])
-                if ((val1 > 0) and (val2 > 0) and (val2 >= val1) and (val2 <= ntw.getNeuronsCount())):
-                    ntw.setActiveParts(val1 - 1, val2 - 1)
-                else:
-                    valErr()
-            except ValueError:
-                valErr()
-        else:
-            valErr()
-
-
-def add(textString):
-    if (len(textString) > 0):
-        if (textString[0] == 'n'):
-            if (len(textString) < 7):
-                valErr()
-            else:
-                if (textString[1] != ' '):
-                    valErr()
-                else:
-                    vals = textString[2:].split(' ')
-                    if (len(vals) < 3):
-                        valErr()
+        if string[0] == "c":
+            string_vals = string[3:].split(" ")
+            vals = list(map(lambda x: int(x), string_vals))
+            if len(vals) == 5 and vals[1] <= vals[2] and vals[3] <= vals[4] and \
+                                    (vals[2] + 1 - vals[1]) * (vals[4] + 1 - vals[3]) >= vals[0]:
+                if string[1:3] == "e ":
+                    if vals[2] <= ntw.get_connections_count() and vals[4] <= ntw.get_electrodes_count():
+                        ntw.add_connections(False, vals[0], vals[1] - 1, vals[2] - 1, vals[3] - 1, vals[4] - 1)
+                        print("successfully added")
                     else:
-                        ok = True
-                        try:
-                            val1 = int(vals[0])
-                            val2 = int(vals[1])
-                            val3 = int(vals[2])
-                            ok = (
-                            (val1 >= 0) and (val2 >= 0) and (val3 >= 0) and (val2 < (val1 * ntw.getElectrodesCount())))
-                        except ValueError:
-                            valErr()
-                            ok = False
-                        if ok:
-                            if (val3 == 0):
-                                ntw.addNeurons(val1, val2, val3, 0, 0)
-                            else:
-                                if (len(vals) < 5):
-                                    valErr()
-                                else:
-                                    ok = True
-                                    try:
-                                        val4 = int(vals[3])
-                                        val5 = int(vals[4])
-                                    except ValueError:
-                                        valErr()
-                                        ok = False
-                                    if (ok and (val5 >= val4) and (val4 > 0) and (
-                                        val5 <= ntw.getNeuronsCount() + val1) and (val3 <= (val5 + 1 - val4))):
-                                        ntw.addNeurons(val1, val2, val3, val4 - 1, val5 - 1)
-                                    else:
-                                        valErr()
-        elif (textString[0] == 'c'):
-            if (len(textString) < 12):
-                valErr()
-            else:
-                ok = True
-                if (textString[1] == 'n'):
-                    val1 = True
-                elif (textString[1] == 'e'):
-                    val1 = False
-                else:
-                    valErr()
-                    ok = False
-                if ok:
-                    vals = textString[3:].split(' ')
-                    if (len(vals) < 5):
-                        valErr()
+                        value_error()
+                elif string[1:3] == "n ":
+                    if max(vals[2], vals[4]) <= ntw.get_neurons_count():
+                        ntw.add_connections(True, vals[0], vals[1] - 1, vals[2] - 1, vals[3] - 1, vals[4] - 1)
+                        print("successfully added")
                     else:
-                        try:
-
-                            val2 = int(vals[0])
-                            val3 = int(vals[1])
-                            val4 = int(vals[2])
-                            val5 = int(vals[3])
-                            val6 = int(vals[4])
-                        except ValueError:
-                            valErr()
-                            ok = False
-                        if ok:
-                            if ((val2 > 0) and (val3 > 0) and (val5 > 0) and (val4 >= val3) and (val6 >= val5) and (
-                                val4 <= ntw.getNeuronsCount()) and (((val1) and (val6 <= ntw.getNeuronsCount())) or (
-                                (not val1) and (val6 <= ntw.getElectrodesCount()))) and (
-                                val2 < ((val6 + 1 - val5) * (val4 + 1 - val3)))):
-                                ntw.addConnections(val1, val2, val3 - 1, val4 - 1, val5 - 1, val6 - 1)
-                            else:
-                                valErr()
-        elif (textString[0] == 'e'):
-            if (len(textString) < 5):
-                valErr()
-            else:
-                if (textString[1] != ' '):
-                    valErr()
+                        value_error()
                 else:
-                    vals = textString[2:].split(' ')
-                    if (len(vals) < 2):
-                        valErr()
-                    else:
-                        ok = True
-                        try:
-                            val1 = int(vals[0])
-                            val2 = int(vals[1])
-                            ok = ((val1 >= 0) and (val2 >= 0))
-                        except ValueError:
-                            valErr()
-                            ok = False
-                        if ok:
-                            if (val2 == 0):
-                                ntw.addElectrodes(val1, val2, 0, 0)
-                            else:
-                                if (len(vals) < 4):
-                                    valErr()
-                                else:
-                                    ok = True
-                                    try:
-                                        val3 = int(vals[2])
-                                        val4 = int(vals[3])
-                                    except ValueError:
-                                        valErr()
-                                        ok = False
-                                    if (ok and (val4 >= val3) and ((val4 + 1 - val3) >= val2) and (
-                                        val3 > 0) and () and (val4 <= ntw.getNeuronsCount())):
-                                        ntw.addElectrodes(val1, val2, val3 - 1, val4 - 1)
-                                    else:
-                                        valErr()
+                    value_error()
+            else:
+                value_error()
+        elif string[0:2] == "e ":
+            val = int(string[2:])
+            ntw.add_electrodes(val)
+            print("successfully added")
+        elif string[0:2] == "n ":
+            val = int(string[2:])
+            ntw.add_neurons(val)
+            print("successfully added")
         else:
-            valErr()
-    else:
-        valErr()
+            value_error()
+    except Exception as e:
+        print("Error:", e)
 
 
 def info():
-    print("Electrodes: " + str(ntw.getElectrodesCount()))
-    print("Neurons: " + str(ntw.getNeuronsCount()))
+    print("Electrodes: " + str(ntw.get_electrodes_count()))
+    print("Connections: " + str(ntw.get_connections_count()))
+    print("Neurons: " + str(ntw.get_neurons_count()))
     nz = ntw.getNoize()
     if nz[0]:
-        nName = "Relative"
+        n_name = "Relative"
     else:
-        nName = "Fixed"
-    print("Noize: " + nName + "(" + str(nz[1]) + ")")
-    an = ntw.getActiveParts()
-    print("Activated neurons from " + str(an[0] + 1) + " to " + str(an[1] + 1))
+        n_name = "Fixed"
+    print("Noize: " + n_name + "(" + str(nz[1]) + ")")
 
 
-# save/load modules
-def electrodes(text_string):
-    texts = text_string.split(" ", 1)
-    if (texts[0] == 's'):
-        save_matrix(ntw.ele_matrix_get(), texts[1])
-    elif (texts[0] == 'l'):
-        m = load_matrix(texts[1])
-        if (not m is None):
-            ntw.ele_matrix_put(m)
-            print("Successfully loaded")
-    else:
-        valErr()
+def show_help():
+    print("'ace 10 1 20 3 15' - add 10 connections from connections in range 1-20 to electrodes in range 3-15")
+    print("'acn 10 1 20 3 15' - add 10 connections from neurons in range 1-20 to neurons in range 3-15")
+    print("'ae 10' - add 10 electrodes")
+    print("'an 10' - add 10 neurons")
+    print("blank string - 1 step")
+    print("'h' - show help")
+    print("'s1 1 1 1 1' - stimulate electrodes which numbers according with '1' in string after 's' symbol"
+          "and do 1 step")
+    print("'state load ${fname}' - load state from file 'fname'")
+    print("'state save ${fname}' - save state to file 'fname'")
 
 
-def neurons(text_string):
-    texts = text_string.split(" ", 1)
-    if (texts[0] == 's'):
-        save_matrix(ntw.neu_matrix_get(), texts[1])
-    elif (texts[0] == 'l'):
-        m = load_matrix(texts[1])
-        if (not m is None):
-            ntw.neu_matrix_put(m)
-            print("Successfully loaded")
-    else:
-        valErr()
+def save_state(fname):
+    try:
+        st = ntw.get_state()
+        save_object(st, fname)
+        print("Saved")
+    except Exception as e:
+        print("Error:", e)
 
 
+def load_state(fname):
+    try:
+        st = load_object(fname)
+        ntw.set_state(st)
+        print("Loaded")
+    except Exception as e:
+        print("Error:", e)
+
+
+def stimulate(text):
+    stim_list = []
+    l = len(text)
+    for i in range(ntw.get_electrodes_count()):
+        if i == l:
+            break
+        if text[i] == '1':
+            stim_list.append(i)
+    ntw.stimulate(stim_list)
+    ntw.step()
+
+
+def noize(string):
+    ok = True
+    val = 0
+    try:
+        val = int(string[1:])
+    except ValueError:
+        value_error()
+        ok = False
+    if ok:
+        if string[0] == 'f':
+            if 0 <= val <= ntw.get_neurons_count():
+                ntw.setNoize(False, val)
+                print("Noize: Fixed(" + str(val) + ")")
+            else:
+                value_error()
+        elif string[0] == 'r':
+            if 0 <= val <= 100:
+                ntw.setNoize(True, val)
+                print("Noize: Relative(" + str(val) + ")")
+            else:
+                value_error()
+        else:
+            value_error()
+
+
+# TODO : Remove noize after add new mechanism.
+ntw = Network(Callback())
+# test part
+ntw.add_electrodes(30)
+ntw.add_neurons(100)
+ntw.add_connections(True, 2000, 0, 99, 0, 99)
+ntw.add_connections(False, 150, 0, 1999, 0, 29)
+ntw.setNoize(True, 5)
+# end test part
+print("Model started")
 while bool(1):
     inpt = input(">")
-    if (len(inpt) > 0):
-        if (inpt[0] == '-'):
+    if len(inpt) > 0:
+        if inpt == '-':
             break
-        elif (inpt[0] == 'e'):
-            electrodes(inpt[1:])
-        elif (inpt[0] == 'm'):
-            neurons(inpt[1:])
-        elif (inpt[0] == 's'):
-            stim(inpt[1:])
-        elif (inpt[0] == 'c'):
-            choose(inpt[1:])
-        elif (inpt[0] == 'a'):
+        elif inpt[0] == 's':
+            if inpt[0:11] == "state save ":
+                save_state(inpt[11:])
+            elif inpt[0:11] == "state load ":
+                load_state(inpt[11:])
+            else:
+                stimulate(inpt[1:])
+        elif inpt[0] == 'a':
             add(inpt[1:])
-        elif (inpt[0] == 'i'):
+        elif inpt == 'i':
             info()
-        elif (inpt[0] == 'n'):
+        elif inpt[0] == 'n':
             noize(inpt[1:])
+        elif inpt == 'h':
+            show_help()
         else:
             steps(inpt)
     else:

@@ -84,7 +84,7 @@ class NetworkWindow(QWidget):
             self.NoizeValueSpinBox.setValue(self.ntw.getNoize()[1])
         else:
             self.NoizeTypeComboBox.setCurrentIndex(1)
-            self.NoizeValueSpinBox.setMaximum(self.ntw.getNeuronsCount())
+            self.NoizeValueSpinBox.setMaximum(self.ntw.get_neurons_count())
             self.NoizeValueSpinBox.setValue(self.ntw.getNoize()[1])
 
         self.worker.set_save_to_file(True)
@@ -174,7 +174,7 @@ class NetworkWindow(QWidget):
         self.child = SettingsWindow(self)
 
     def sub_select_noize_type(self, index):
-        neurs = self.ntw.getNeuronsCount()
+        neurs = self.ntw.get_neurons_count()
         old_noize = self.ntw.getNoize()
         if old_noize[0] != (not index):
             if not index:  # relative
