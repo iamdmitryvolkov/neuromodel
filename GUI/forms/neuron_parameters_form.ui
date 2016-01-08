@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>260</width>
-    <height>412</height>
+    <height>385</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>260</width>
-    <height>412</height>
+    <height>385</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>260</width>
-    <height>412</height>
+    <height>385</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -29,7 +29,7 @@
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>379</y>
+     <y>352</y>
      <width>80</width>
      <height>23</height>
     </rect>
@@ -42,7 +42,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>382</y>
+     <y>355</y>
      <width>140</width>
      <height>17</height>
     </rect>
@@ -83,7 +83,7 @@
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="StimCurrentSpinBox">
+  <widget class="QDoubleSpinBox" name="ThresholdSpinBox">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -93,7 +93,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="StimCurrentLabel">
+  <widget class="QLabel" name="ThresholdLabel">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -103,10 +103,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>Stimulation current:</string>
+    <string>Threshold:</string>
    </property>
   </widget>
-  <widget class="QLabel" name="NoizeStimCurrentLabel">
+  <widget class="QLabel" name="PotentialRelaxTimeLabel">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -116,10 +116,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>Noize stimulation current:</string>
+    <string>Potential relax time:</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="NoizeStimCurrentSpinBox">
+  <widget class="QDoubleSpinBox" name="PotentialRelaxTimeSpinBox">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -129,7 +129,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="SysStepLabel">
+  <widget class="QLabel" name="StrengthMinLabel">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -139,10 +139,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>Synaptic step:</string>
+    <string>Strength minimum:</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="SynStepSpinBox">
+  <widget class="QDoubleSpinBox" name="StrengthMinSpinBox">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -152,7 +152,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="UThresholdLabel">
+  <widget class="QLabel" name="StrengthMaxLabel">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -162,10 +162,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>U threshold</string>
+    <string>Strength maximum:</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="UThresholdSpinBox">
+  <widget class="QDoubleSpinBox" name="StrengthMaxSpinBox">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -175,7 +175,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="VThresholdLabel">
+  <widget class="QLabel" name="StrengthRelaxTimeLabel">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -185,10 +185,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>V threshold:</string>
+    <string>Strength relax time:</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="VThresholdSpinBox">
+  <widget class="QDoubleSpinBox" name="StrengthRelaxTimeSpinBox">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -198,7 +198,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="StabilityLimitLabel">
+  <widget class="QLabel" name="MaxResourceLabel">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -208,10 +208,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>Stability limit:</string>
+    <string>Max resource by strength:</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="StabilityLimitSpinBox">
+  <widget class="QDoubleSpinBox" name="MaxResourceSpinBox">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -221,57 +221,11 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="StimRelaxTimeLabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>222</y>
-     <width>160</width>
-     <height>13</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>U relax time:</string>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="StimRelaxTimeSpinBox">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>217</y>
-     <width>70</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="StabRelaxTimeLabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>249</y>
-     <width>160</width>
-     <height>13</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Stability relax time</string>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="StabRelaxTimeSpinBox">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>244</y>
-     <width>70</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="ResistanceLabel">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>276</y>
+     <y>222</y>
      <width>160</width>
      <height>13</height>
     </rect>
@@ -284,13 +238,59 @@
    <property name="geometry">
     <rect>
      <x>180</x>
+     <y>217</y>
+     <width>70</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="SynMaxLabel">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>249</y>
+     <width>160</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Syn value max:</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="SynMaxSpinBox">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
+     <y>244</y>
+     <width>70</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="SynMinLabel">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>276</y>
+     <width>160</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Syn value min:</string>
+   </property>
+  </widget>
+  <widget class="QDoubleSpinBox" name="SynMinSpinBox">
+   <property name="geometry">
+    <rect>
+     <x>180</x>
      <y>271</y>
      <width>70</width>
      <height>22</height>
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="RelaxedStimLabel">
+  <widget class="QLabel" name="SynRelaxTimeLabel">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -300,10 +300,10 @@
     </rect>
    </property>
    <property name="text">
-    <string>Relaxed U potential:</string>
+    <string>Sys relax time</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="RelaxedStimSpinBox">
+  <widget class="QDoubleSpinBox" name="SynRelaxTimeSpinBox">
    <property name="geometry">
     <rect>
      <x>180</x>
@@ -313,7 +313,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="ResMaxLabel">
+  <widget class="QLabel" name="StimCurrentLabel">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -323,37 +323,14 @@
     </rect>
    </property>
    <property name="text">
-    <string>Membrane resource max:</string>
+    <string>Stimulation current</string>
    </property>
   </widget>
-  <widget class="QDoubleSpinBox" name="ResMaxSpinBox">
+  <widget class="QDoubleSpinBox" name="StimCurrentSpinBox">
    <property name="geometry">
     <rect>
      <x>180</x>
      <y>325</y>
-     <width>70</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="ResLimLabel">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>357</y>
-     <width>160</width>
-     <height>13</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Membrane resource limit:</string>
-   </property>
-  </widget>
-  <widget class="QDoubleSpinBox" name="ResMinSpinBox">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>352</y>
      <width>70</width>
      <height>22</height>
     </rect>
