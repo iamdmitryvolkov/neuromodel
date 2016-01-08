@@ -2,18 +2,20 @@
 # 30.09.2015 Dmitry Volkov
 
 # QT5
+from PyQt5 import QtWidgets, uic
+from PyQt5.QtWidgets import QMessageBox, QWidget
 
 # GUI
-from GUI.gui_network_settings_window import *
-from GUI.gui_neuron_parameters_window import *
-from GUI.gui_settings_window import *
+from gui_network_worker import *
+from gui_neuron_parameters_window import *
+from gui_network_settings_window import *
+from gui_settings_window import *
 
-from GUI.gui_network_worker import *
 # network
-from model.network import *
+from network import *
 
 # util
-from shared_libs import fs_worker as fs
+from fs_worker import *
 
 
 # window class
@@ -41,11 +43,39 @@ class NetworkWindow(QWidget):
 
         self.worker = NetworkWorker(self)
 
-        # TODO: load settings here
-        self.create_new_network()
+        # load matrix
+        load = load_parameter(KEY_SETTINGS_TAB, DEFAULT_SETTINGS_TAB) == "1"
+        if load:
+            load_type = int(load_parameter(KEY_LOAD_NETWORK_COMBOBOX, DEFAULT_LOAD_NETWORK_COMBOBOX))
+            if load_type == 0:
+                if self.load_save(LASTSAVE_FILEPATH):
+                    print("Last network restored")
+                else:
+                    print("Error loading last network")
+                    self.create_new_network()
+            elif(load_type == 1):
+                if self.load_save(SAVES_FILEPATH + "/" + load_parameter(KEY_SAVED_FILE, DEFAULT_SAVED_FILE)):
+                    print("Network loaded")
+                else:
+                    print("Error loading network")
+                    self.create_new_network()
+            elif(load_type == 2):
+                self.ntw = Network(1, 1, 0, 0, parentGui=self.worker)
+                m = load_matrix(load_parameter(KEY_ELECTRODES_MATRIX_PATH, DEFAULT_ELECTRODES_MATRIX_PATH))
+                if (not m is None):
+                    self.ntw.ele_matrix_put(m)
+                    print("Electrodes matrix successfully loaded")
+                m = load_matrix(load_parameter(KEY_NEURONS_MATRIX_PATH, DEFAULT_NEURONS_MATRIX_PATH))
+                if (not m is None):
+                    self.ntw.neu_matrix_put(m)
+                    print("Neurons matrix successfully loaded")
+                self.ntw.setNoize(DEFAULT_NOIZE_TYPE, DEFAULT_NOIZE_VAL)
+        else:
+            self.create_new_network()
+
         buf = 0
-        if fs.load_parameter(SETTINGS_FILEPATH, KEY_BUFFERED_OUTPUT_VALUE, DEFAULT_BUFFERED_OUTPUT_VALUE) == "True":
-            buf = int(fs.load_parameter(SETTINGS_FILEPATH, KEY_BUFFERED_OUTPUT_VALUE, DEFAULT_BUFFERED_OUTPUT_VALUE))
+        if load_parameter(KEY_BUFFERED_OUTPUT_VALUE, DEFAULT_BUFFERED_OUTPUT_VALUE) == "True":
+            buf = int(load_parameter(KEY_BUFFERED_OUTPUT_VALUE, DEFAULT_BUFFERED_OUTPUT_VALUE))
         self.set_buffer(buf)
 
         if self.ntw.getNoize()[0]:
@@ -54,7 +84,7 @@ class NetworkWindow(QWidget):
             self.NoizeValueSpinBox.setValue(self.ntw.getNoize()[1])
         else:
             self.NoizeTypeComboBox.setCurrentIndex(1)
-            self.NoizeValueSpinBox.setMaximum(self.ntw.get_neurons_count())
+            self.NoizeValueSpinBox.setMaximum(self.ntw.getNeuronsCount())
             self.NoizeValueSpinBox.setValue(self.ntw.getNoize()[1])
 
         self.worker.set_save_to_file(True)
@@ -66,24 +96,23 @@ class NetworkWindow(QWidget):
         self.StartStopButton.clicked.connect(self.sub_start_pause)
         self.NeuronParametersButton.clicked.connect(self.sub_neuron_params)
         self.NetworkButton.clicked.connect(self.sub_network_settings)
-        self.NetworkButton.setEnabled(False)
-        self.NeuronParametersButton.setEnabled(False)
-        self.SettingsButton.setEnabled(False)
+        #self.NetworkButton.setEnabled(False)
         self.SettingsButton.clicked.connect(self.sub_app_settings)
         self.NoizeTypeComboBox.currentIndexChanged.connect(self.sub_select_noize_type)
         self.NoizeValueSpinBox.valueChanged.connect(self.sub_select_noize_value)
 
     def create_new_network(self):
-        neurs = int(fs.load_parameter(SETTINGS_FILEPATH, KEY_NEURONS_COUNT, DEFAULT_NEURONS_COUNT))
-        elects = int(fs.load_parameter(SETTINGS_FILEPATH, KEY_ELECTRODES_COUNT, DEFAULT_ELECTRODES_COUNT))
-        neurs_con = int(fs.load_parameter(SETTINGS_FILEPATH, KEY_NEURONS_CONNECTIONS, DEFAULT_NEURONS_CONNECTIONS))
-        elects_con = int(fs.load_parameter(SETTINGS_FILEPATH, KEY_ELECTRODES_CONNECTIONS, DEFAULT_ELECTRODES_CONNECTIONS))
-        self.ntw = Network(self.worker)
-        self.ntw.add_electrodes(elects)
-        self.ntw.add_neurons(neurs)
-        self.ntw.add_connections(True, neurs_con, 0, neurs - 1, 0, neurs - 1)
-        self.ntw.add_connections(False, elects_con, 0, neurs_con - 1, 0, elects - 1)
-        self.ntw.setNoize(True, 5)
+        neurs = int(load_parameter(KEY_NEURONS_COUNT, DEFAULT_NEURONS_COUNT))
+        elects = int(load_parameter(KEY_ELECTRODES_COUNT, DEFAULT_ELECTRODES_COUNT))
+        neurs_con = int(load_parameter(KEY_NEURONS_CONNECTIONS, DEFAULT_NEURONS_CONNECTIONS))
+        elects_con = int(load_parameter(KEY_ELECTRODES_CONNECTIONS, DEFAULT_ELECTRODES_CONNECTIONS))
+        self.ntw = Network(1, 1, 0, 0, parentGui=self.worker)
+        for i in range(neurs - 1):
+            self.ntw.addNeurons(1, 0, 0, 0, 0)
+        for i in range(elects - 1):
+            self.ntw.addElectrodes(1, 0, 0, 0)
+        self.ntw.addConnections(True, neurs_con, 0, neurs - 1, 0, neurs - 1)
+        self.ntw.addConnections(False, elects_con, 0, neurs - 1, 0, elects - 1)
         self.ntw.setNoize(DEFAULT_NOIZE_TYPE, DEFAULT_NOIZE_VAL)
         print("New network created")
 
@@ -126,6 +155,7 @@ class NetworkWindow(QWidget):
         if self.__buffer <= self.__current_buffer_len:
             self.print_now()
 
+
     # subs methods
     def sub_start_pause(self):
         self.worker.flip_running()
@@ -144,7 +174,7 @@ class NetworkWindow(QWidget):
         self.child = SettingsWindow(self)
 
     def sub_select_noize_type(self, index):
-        neurs = self.ntw.get_neurons_count()
+        neurs = self.ntw.getNeuronsCount()
         old_noize = self.ntw.getNoize()
         if old_noize[0] != (not index):
             if not index:  # relative
@@ -152,7 +182,7 @@ class NetworkWindow(QWidget):
                 self.NoizeValueSpinBox.setValue(int(old_noize[1] * 100 / neurs))
             else:
                 self.NoizeValueSpinBox.setMaximum(neurs)
-                self.NoizeValueSpinBox.setValue(min(int(old_noize[1] * neurs / 100), neurs))
+                self.NoizeValueSpinBox.setValue(min(int(old_noize[1] * 100), neurs))
         self.ntw.setNoize(not index, self.NoizeValueSpinBox.value())
 
     def sub_select_noize_value(self, value):
