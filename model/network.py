@@ -1,12 +1,13 @@
 # Spike model of neuronal culture (C) Dmitry Volkov 2015
 
-# version 1.1 (10.07.2015)
+# version 2.0 (02.12.2015)
 
 import random
-from neuron import *
-from connection import *
-from electrode import *
-from network_params import *
+
+from model.connection import *
+from model.network_params import *
+from model.neuron import *
+from model.electrode import *
 
 
 class Network:
@@ -22,6 +23,7 @@ class Network:
     __connections_index_electrodes = None
 
     # TODO: REMOVE IT
+    __writer = None
     __relativeNoize = False
     __valNoize = 0
     noize = 0
@@ -56,6 +58,7 @@ class Network:
     def add_neurons(self, count):
         for i in range(count):
             self.__neurons.append(Neuron(self.__params))
+        self.__recalcNoize()
 
     def add_connections(self, to_neurons, count, min_index_from, max_index_from, min_index_to, max_index_to):
         n_len = len(self.__neurons)
@@ -103,17 +106,17 @@ class Network:
         neurs = len(self.__neurons)
 
         # noize
-        noizeList = list(range(neurs))
+        noizeList = list(range(neurs))  # pacemaker test
         random.shuffle(noizeList)
         for i in noizeList[:self.noize]:
             self.__neurons[i].add_current(self.__noize_current)
 
         for con in self.__connections:
             con.step()
-            #todo remove it
-        summ = 0
-        for neu in self.__neurons:
-            summ += neu.test()
+            # todo remove it
+        #summ = 0
+        #for neu in self.__neurons:
+        #    summ += int(neu.get_spike_value() > 0) #neu.test()
         for neu in self.__neurons:
             neu.step()
 
@@ -124,8 +127,9 @@ class Network:
                 line.append(1)
             else:
                 line.append(0)
-        print(summ,end="")
+        #print(summ, end="")
         self.__callback.draw_info(line)
+
 
     def stimulate(self, list):
         stimulation_list = []

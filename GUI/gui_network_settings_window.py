@@ -2,15 +2,14 @@
 # 30.09.2015 Dmitry Volkov
 
 # QT5
-from PyQt5 import QtCore, QtGui, QtWidgets, uic
-from PyQt5.QtWidgets import QApplication, QTabWidget, QMessageBox, QWidget
-from PyQt5.QtGui import QIntValidator, QPainter, QColor, QBrush
+from PyQt5 import uic
+from PyQt5.QtWidgets import QMessageBox, QWidget
 
 # GUI
-from gui_consts import *
+from GUI.gui_consts import *
 
 # window class
-class AddConnectionsWindow(QWidget):
+class NetworkSettingsWindow(QWidget):
     # parent
     __parent = None
 

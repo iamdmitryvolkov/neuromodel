@@ -36,7 +36,7 @@ class Neuron:
 
         # resource
         res_max = self.__strength * self.__params.resource_max_by_strength
-        if self.get_spike_value():
+        if spike:
             self.__resource -= 1
         else:
             self.__resource = min(res_max, self.__resource * (1 + 1/res_max))

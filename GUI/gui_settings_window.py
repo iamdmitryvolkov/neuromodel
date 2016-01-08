@@ -2,19 +2,17 @@
 # 30.09.2015 Dmitry Volkov
 
 # QT5
-from PyQt5 import QtCore, QtGui, QtWidgets, uic
-from PyQt5.QtWidgets import QApplication, QTabWidget, QMessageBox, QWidget
-from PyQt5.QtGui import QIntValidator, QPainter, QColor, QBrush
+from PyQt5 import QtWidgets, uic
+from PyQt5.QtWidgets import QMessageBox, QWidget
 
 # GUI
-from gui_consts import *
 
 
 from os.path import isfile
-from fs_worker import *
-from gui_settings_default_parameters import *
-from gui_settings_keys import *
-from gui_consts import *
+from shared_libs import fs_worker as fs
+from GUI.gui_settings_default_parameters import *
+from GUI.gui_settings_keys import *
+from GUI.gui_consts import *
 
 # window class
 class SettingsWindow(QWidget):
@@ -38,25 +36,25 @@ class SettingsWindow(QWidget):
         self.init_ui()
 
         # buffer
-        self.BufferGroupBox.setChecked("True" == load_parameter(KEY_BUFFERED_OUTPUT_FLAG, DEFAULT_BUFFERED_OUTPUT_FLAG))
-        self.BufferValue.setValue(int(load_parameter(KEY_BUFFERED_OUTPUT_VALUE, DEFAULT_BUFFERED_OUTPUT_VALUE)))
+        self.BufferGroupBox.setChecked("True" == fs.load_parameter(KEY_BUFFERED_OUTPUT_FLAG, DEFAULT_BUFFERED_OUTPUT_FLAG))
+        self.BufferValue.setValue(int(fs.load_parameter(KEY_BUFFERED_OUTPUT_VALUE, DEFAULT_BUFFERED_OUTPUT_VALUE)))
 
-        self.StartupTabs.setCurrentIndex(int(load_parameter(KEY_SETTINGS_TAB, DEFAULT_SETTINGS_TAB)))
+        self.StartupTabs.setCurrentIndex(int(fs.load_parameter(KEY_SETTINGS_TAB, DEFAULT_SETTINGS_TAB)))
 
         # 1 page
-        self.NeuronsCountBox.setValue(int(load_parameter(KEY_NEURONS_COUNT, DEFAULT_NEURONS_COUNT)))
-        self.ElectrodesCountBox.setValue(int(load_parameter(KEY_ELECTRODES_COUNT, DEFAULT_ELECTRODES_COUNT)))
-        self.ElectrodesConnectionsBox.setValue(int(load_parameter(KEY_ELECTRODES_CONNECTIONS, DEFAULT_ELECTRODES_CONNECTIONS)))
-        self.NeuronsConnectionsBox.setValue(int(load_parameter(KEY_NEURONS_CONNECTIONS, DEFAULT_NEURONS_CONNECTIONS)))
+        self.NeuronsCountBox.setValue(int(fs.load_parameter(KEY_NEURONS_COUNT, DEFAULT_NEURONS_COUNT)))
+        self.ElectrodesCountBox.setValue(int(fs.load_parameter(KEY_ELECTRODES_COUNT, DEFAULT_ELECTRODES_COUNT)))
+        self.ElectrodesConnectionsBox.setValue(int(fs.load_parameter(KEY_ELECTRODES_CONNECTIONS, DEFAULT_ELECTRODES_CONNECTIONS)))
+        self.NeuronsConnectionsBox.setValue(int(fs.load_parameter(KEY_NEURONS_CONNECTIONS, DEFAULT_NEURONS_CONNECTIONS)))
 
         # 2 page
 
-        self.LoadTypeComboBox.setCurrentIndex(int(load_parameter(KEY_LOAD_NETWORK_COMBOBOX, DEFAULT_LOAD_NETWORK_COMBOBOX)));
-        self.__restore_state_flag = "True" == load_parameter(KEY_RESTORE_STATE_FLAG, DEFAULT_RESTORE_STATE_FLAG)
+        self.LoadTypeComboBox.setCurrentIndex(int(fs.load_parameter(KEY_LOAD_NETWORK_COMBOBOX, DEFAULT_LOAD_NETWORK_COMBOBOX)));
+        self.__restore_state_flag = "True" == fs.load_parameter(KEY_RESTORE_STATE_FLAG, DEFAULT_RESTORE_STATE_FLAG)
         self.RestoreStateCheckBox.setChecked(self.__restore_state_flag)
         self.__savedFiles = get_saved_files()
         self.SelectSavedFileComboBox.addItems(self.__savedFiles)
-        saved_file = load_parameter(KEY_SAVED_FILE,DEFAULT_SAVED_FILE)
+        saved_file = fs.load_parameter(KEY_SAVED_FILE,DEFAULT_SAVED_FILE)
         for i in range(len(self.__savedFiles)):
             if self.__savedFiles[i] == saved_file:
                 self.SelectSavedFileComboBox.setCurrentIndex(i+1)
@@ -64,8 +62,8 @@ class SettingsWindow(QWidget):
 
         self.sub_load_type_combobox(self.LoadTypeComboBox.currentIndex())
 
-        self.ElectrodesMatrixLineEdit.setText(load_parameter(KEY_ELECTRODES_MATRIX_PATH, DEFAULT_ELECTRODES_MATRIX_PATH))
-        self.NeuronsMatrixLineEdit.setText(load_parameter(KEY_NEURONS_MATRIX_PATH, DEFAULT_NEURONS_MATRIX_PATH))
+        self.ElectrodesMatrixLineEdit.setText(fs.load_parameter(KEY_ELECTRODES_MATRIX_PATH, DEFAULT_ELECTRODES_MATRIX_PATH))
+        self.NeuronsMatrixLineEdit.setText(fs.load_parameter(KEY_NEURONS_MATRIX_PATH, DEFAULT_NEURONS_MATRIX_PATH))
         self.show()
 
     # Window UI
@@ -113,22 +111,22 @@ class SettingsWindow(QWidget):
         self.close()
 
     def sub_save_click(self):
-        save_parameter(KEY_BUFFERED_OUTPUT_FLAG, self.BufferGroupBox.isChecked())
-        save_parameter(KEY_BUFFERED_OUTPUT_VALUE, self.BufferValue.value())
+        fs.fs.save_parameter(KEY_BUFFERED_OUTPUT_FLAG, self.BufferGroupBox.isChecked())
+        fs.fs.save_parameter(KEY_BUFFERED_OUTPUT_VALUE, self.BufferValue.value())
 
-        save_parameter(KEY_SETTINGS_TAB, self.StartupTabs.currentIndex())
+        fs.fs.save_parameter(KEY_SETTINGS_TAB, self.StartupTabs.currentIndex())
 
-        save_parameter(KEY_NEURONS_COUNT, self.NeuronsCountBox.value())
-        save_parameter(KEY_ELECTRODES_COUNT, self.ElectrodesCountBox.value())
-        save_parameter(KEY_ELECTRODES_CONNECTIONS, self.ElectrodesConnectionsBox.value())
-        save_parameter(KEY_NEURONS_CONNECTIONS, self.NeuronsConnectionsBox.value())
+        fs.fs.save_parameter(KEY_NEURONS_COUNT, self.NeuronsCountBox.value())
+        fs.fs.save_parameter(KEY_ELECTRODES_COUNT, self.ElectrodesCountBox.value())
+        fs.fs.save_parameter(KEY_ELECTRODES_CONNECTIONS, self.ElectrodesConnectionsBox.value())
+        fs.fs.save_parameter(KEY_NEURONS_CONNECTIONS, self.NeuronsConnectionsBox.value())
 
-        save_parameter(KEY_LOAD_NETWORK_COMBOBOX, self.LoadTypeComboBox.currentIndex())
-        save_parameter(KEY_RESTORE_STATE_FLAG, self.__restore_state_flag)
+        fs.fs.save_parameter(KEY_LOAD_NETWORK_COMBOBOX, self.LoadTypeComboBox.currentIndex())
+        fs.fs.save_parameter(KEY_RESTORE_STATE_FLAG, self.__restore_state_flag)
         if len(self.__savedFiles) > 0 and self.SelectSavedFileComboBox.currentIndex() > 0:
-            save_parameter(KEY_SAVED_FILE, self.__savedFiles[self.SelectSavedFileComboBox.currentIndex() - 1])
-        save_parameter(KEY_ELECTRODES_MATRIX_PATH, self.ElectrodesMatrixLineEdit.displayText())
-        save_parameter(KEY_NEURONS_MATRIX_PATH, self.NeuronsMatrixLineEdit.displayText())
+            fs.fs.save_parameter(KEY_SAVED_FILE, self.__savedFiles[self.SelectSavedFileComboBox.currentIndex() - 1])
+        fs.fs.save_parameter(KEY_ELECTRODES_MATRIX_PATH, self.ElectrodesMatrixLineEdit.displayText())
+        fs.fs.save_parameter(KEY_NEURONS_MATRIX_PATH, self.NeuronsMatrixLineEdit.displayText())
         if self.BufferGroupBox.isChecked():
             self.__parent.set_buffer(self.BufferValue.value())
         else:

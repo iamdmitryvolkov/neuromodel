@@ -42,7 +42,7 @@ class Connection:
                                (sum(self.__data)/(self.__data_len * self.__params.strength_max))
         else:
             self.__strength -= ((self.__strength - self.__params.syn_value_min) /
-                                (200 * self.__params.connection_relax_time)) * \
+                                (2 * self.__params.connection_relax_time)) * \
                                ((self.__data_len * self.__params.strength_max) / (sum(self.__data) + 1))
         for i in self.__to:
             i.add_current(val)

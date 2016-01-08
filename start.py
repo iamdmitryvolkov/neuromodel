@@ -2,8 +2,8 @@
 
 # version 1.1 (10.07.2015)
 
-from network import *
-from fs_worker import *
+from shared_libs import fs_worker as fs
+from model.network import *
 
 
 class Callback:
@@ -91,16 +91,18 @@ def show_help():
     print("'an 10' - add 10 neurons")
     print("blank string - 1 step")
     print("'h' - show help")
+    print("number - do number of steps")
     print("'s1 1 1 1 1' - stimulate electrodes which numbers according with '1' in string after 's' symbol"
           "and do 1 step")
     print("'state load ${fname}' - load state from file 'fname'")
     print("'state save ${fname}' - save state to file 'fname'")
+    print("'-' - close app")
 
 
 def save_state(fname):
     try:
         st = ntw.get_state()
-        save_object(st, fname)
+        fs.save_object(st, fname)
         print("Saved")
     except Exception as e:
         print("Error:", e)
@@ -108,7 +110,7 @@ def save_state(fname):
 
 def load_state(fname):
     try:
-        st = load_object(fname)
+        st = fs.load_object(fname)
         ntw.set_state(st)
         print("Loaded")
     except Exception as e:

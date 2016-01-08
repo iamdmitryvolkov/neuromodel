@@ -10,7 +10,6 @@ SLEEP_TIME_JOIN = 0.1
 # Text
 SMALL_SCREEN_TEXT = "Sorry, you screen is too small"
 MESSAGE_TEXT = "Message"
-SETTING_KEY_SPLITTER = "#"
 DIALOG_NEU_TEXT = "Select neurons matrix file"
 DIALOG_ELE_TEXT = "Select electrodes matrix file"
 
@@ -21,7 +20,7 @@ TEMPFILE = "./GUI/temp"
 SAVES_FILEPATH = "./GUI/save"
 LASTSAVE_FILEPATH = "./GUI/last/save.sv"
 SAVEFILE_FORMAT = ".save"
-ACTYVITY_FILE = "data/data.txt"
+ACTYVITY_FILE = "output/activity/model.txt"
 
 # color in settings
 SETTINGS_COLOR_OK = "background-color: rgb(155, 255, 155);"

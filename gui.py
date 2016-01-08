@@ -3,11 +3,11 @@
 
 # QT5
 import sys
-from PyQt5.QtWidgets import QApplication
 
+from PyQt5.QtWidgets import QApplication
 # GUI
-from gui_window import *
-from gui_consts import *
+from GUI.gui_window import *
+from GUI.gui_consts import *
 
 # program
 app = QApplication(sys.argv)

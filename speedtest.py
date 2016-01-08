@@ -2,14 +2,12 @@
 
 # version 1.0 (2.12.2015)
 
-from fs_worker import *
-from network import *
 import time
 
+from model.network import *
+
 NOIZE_TYPE = True
-NOIZE_VAL = True
-MATRIX_PATH = "matrix/neu.txt"
-ELE_PATH = "matrix/ele.txt"
+NOIZE_VAL = 5
 
 
 class NullCallback:

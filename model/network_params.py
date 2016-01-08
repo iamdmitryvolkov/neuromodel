@@ -2,13 +2,13 @@
 
 # version 1.0 (3.12.2015)
 
-from params_consts import *
+from model.params_consts import *
 
 
 class NetworkParams:
 
     # electrodes
-    sensitivity = 1.0
+    sensitivity = 2.0
 
     # neurons potential
     threshold = 7
