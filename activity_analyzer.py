@@ -163,6 +163,8 @@ def analyze_activity(data, params):
     all_length = len(data)
     packs_length = 0
     count = len(packs)
+    if count == 0:
+        count = 1
     for pack in packs:
         packs_length += (pack[1]-pack[0])
     bl = packs_length/count
@@ -182,7 +184,7 @@ def draw_activity(in_data, name):
     plt.ylim([0, max_data])
     text = "length: " + str(len(data)) + "\nmax_value: " + str(max_data)
     plt.figtext(0.13, 0.77, text, color="#EEEECC")
-    plt.savefig("output/analizer/" + name)
+    plt.savefig("output/analyzer/" + name)
     plt.close()
 
 
@@ -197,7 +199,7 @@ def draw_data(in_data, m, d, a, e, name):
 
     text = "m: " + str(m) + "\nD: " + str(d) + "\na: " + str(a) + "\nk: " + str(e)
     plt.figtext(0.13, 0.77, text, color="#EEEECC")
-    plt.savefig("output/analizer/pack " + name)
+    plt.savefig("output/analyzer/pack " + name)
     plt.close()
 
 
@@ -231,7 +233,7 @@ def parameter(task):
         pool.append(mn)
     pool.append(mx)
 
-    fname = "analizer_settings.txt"
+    fname = "analyzer_settings.txt"
     neurs = int(fs.load_parameter(fname, "NEURONS", 100))
     elects = int(fs.load_parameter(fname, "ELECTRODES", 30))
     cons = int(fs.load_parameter(fname, "CONNECTIONS", 2000))
@@ -286,29 +288,29 @@ def parameter(task):
     plt.ylabel("burst period length")
     plt.ylim(lims)
     plt.plot(pool, pool_burst_len)
-    plt.savefig("output/analizer/id " + str(id) + " burst length" + ".png")
+    plt.savefig("output/analyzer/id " + str(id) + " burst length" + ".png")
     plt.close()
     plt.xlabel("parameter " + str(id))
     plt.ylabel("interburst period length")
     plt.ylim(lims)
     plt.plot(pool, pool_noburst_len)
-    plt.savefig("output/analizer/id " + str(id) + " interburst length" + ".png")
+    plt.savefig("output/analyzer/id " + str(id) + " interburst length" + ".png")
     plt.close()
     plt.xlabel("parameter " + str(id))
     plt.ylabel("burst percent")
     plt.ylim([0, 1])
     plt.plot(pool, pool_burst_percent)
-    plt.savefig("output/analizer/id " + str(id) + " burst percent" + ".png")
+    plt.savefig("output/analyzer/id " + str(id) + " burst percent" + ".png")
     plt.close()
     output = "id {0}\nvalues: {1}\nburst length: {2}\ninterburst length: {3}\nburst percent {4}"\
         .format(id, pool, pool_burst_len, pool_noburst_len, pool_burst_percent)
-    fs.write_file("output/analizer/id " + str(id) + " testing results" + ".txt", output)
+    fs.write_file("output/analyzer/id " + str(id) + " testing results" + ".txt", output)
 
 
 def activity(task):
     drawall = len(task) == 2
     fname = task[0]
-    sfname = "analizer_settings.txt"
+    sfname = "analyzer_settings.txt"
     wind_size = int(fs.load_parameter(sfname, "WINDOWSIZE", 7))
     pstart = int(fs.load_parameter(sfname, "PACKSTART", 79))
     pend = int(fs.load_parameter(sfname, "PACKEND", 21))
@@ -365,7 +367,7 @@ def graph(task):
     act = matrix_act[0]
 
     if act is not None:
-        result_name = "output/analizer/graph_" + axis_name
+        result_name = "output/analyzer/graph_" + axis_name
         plt.figure(figsize=(max(8, len(act)/50), 6))
         plt.xlabel("time")
         plt.ylabel(axis_name)
@@ -394,7 +396,7 @@ def dynamics(task):
     try:
         numbers = list(map(lambda x: int(x), task))
 
-        fname = "analizer_settings.txt"
+        fname = "analyzer_settings.txt"
         neurs = int(fs.load_parameter(fname, "NEURONS", 100))
         elects = int(fs.load_parameter(fname, "ELECTRODES", 30))
         cons = int(fs.load_parameter(fname, "CONNECTIONS", 2000))
@@ -441,12 +443,12 @@ def dynamics(task):
             neuron_data = [potential, strength, resource, incoming_current]
             value_dynamics.append(neuron_data)
 
-        fs.save_matrix(data, "output/analizer/dynamics_activity.txt")
+        fs.save_matrix(data, "output/analyzer/dynamics_activity.txt")
         for i in range(len(numbers)):
-            fs.save_matrix([value_dynamics[i][0]], "output/analizer/dynamics_" + str(numbers[i]) + "_potential" + ".txt")
-            fs.save_matrix([value_dynamics[i][1]], "output/analizer/dynamics_" + str(numbers[i]) + "_strength" + ".txt")
-            fs.save_matrix([value_dynamics[i][2]], "output/analizer/dynamics_" + str(numbers[i]) + "_resource" + ".txt")
-            fs.save_matrix([value_dynamics[i][3]], "output/analizer/dynamics_" + str(numbers[i]) + "_current" + ".txt")
+            fs.save_matrix([value_dynamics[i][0]], "output/analyzer/dynamics_" + str(numbers[i]) + "_potential" + ".txt")
+            fs.save_matrix([value_dynamics[i][1]], "output/analyzer/dynamics_" + str(numbers[i]) + "_strength" + ".txt")
+            fs.save_matrix([value_dynamics[i][2]], "output/analyzer/dynamics_" + str(numbers[i]) + "_resource" + ".txt")
+            fs.save_matrix([value_dynamics[i][3]], "output/analyzer/dynamics_" + str(numbers[i]) + "_current" + ".txt")
 
     except Exception as e:
         print("error: " + str(e), flush=True)

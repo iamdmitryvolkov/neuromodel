@@ -2,8 +2,8 @@ if [ $# == 0 ]
 then
 echo Enter args:
 read args
-python activity_analizer.py $args
+python activity_analyzer.py $args
 else
-python activity_analizer.py $@
+python activity_analyzer.py $@
 fi
 read foo
