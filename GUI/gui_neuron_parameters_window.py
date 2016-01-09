@@ -7,15 +7,15 @@ from PyQt5.QtWidgets import QMessageBox, QWidget
 
 # GUI
 from GUI.gui_consts import *
+from model.params_consts import *
 
-#network
 
 # window class
 class ParametersWindow(QWidget):
     # network
     __network = None
 
-    #parent
+    # parent
     __parent = None
 
     __parameters_set = []
@@ -32,21 +32,20 @@ class ParametersWindow(QWidget):
         self.init_ui()
 
         # load parameters from network
-        self.ElectrodeSensitivitySlider.setValue(self.__network.get_parameter(INJECTOR_ID_ELECTRODE_THRESHOLD)*10)
-        self.StimCurrentSpinBox.setValue(self.__network.get_parameter(INJECTOR_ID_STIM_CURRENT))
-        self.NoizeStimCurrentSpinBox.setValue(self.__network.get_parameter(INJECTOR_ID_NOIZE_STIM_CURRENT))
-        self.SynStepSpinBox.setValue(self.__network.get_parameter(INJECTOR_ID_SYN_STEP))
-        self.UThresholdSpinBox.setValue(self.__network.get_parameter(INJECTOR_ID_STIM_THRESHOLD))
-        self.VThresholdSpinBox.setValue(self.__network.get_parameter(INJECTOR_ID_BRAKE_THRESHOLD))
-        self.StabilityLimitSpinBox.setValue(self.__network.get_parameter(INJECTOR_ID_STABILITY_LIMIT))
-        self.StimRelaxTimeSpinBox.setValue(self.__network.get_parameter(INJECTOR_ID_STIM_RELAX_TIME))
-        self.StabRelaxTimeSpinBox.setValue(self.__network.get_parameter(INJECTOR_ID_STABILITY_RELAX_TIME))
-        self.ResistanceSpinBox.setValue(self.__network.get_parameter(INJECTOR_ID_RESISTANCE))
-        self.RelaxedStimSpinBox.setValue(self.__network.get_parameter(INJECTOR_ID_RELAXED_STIM))
-        self.ResMaxSpinBox.setValue(self.__network.get_parameter(INJECTOR_ID_RESOURCE_MAX))
-        self.ResMinSpinBox.setValue(self.__network.get_parameter(INJECTOR_ID_RESOURCE_LIMIT))
+        self.ElectrodeSensitivitySlider.setValue(self.__network.get_parameter(ID_SENSITIVITY)*10)
+        self.ThresholdSpinBox.setValue(self.__network.get_parameter(ID_THRESHOLD))
+        self.PotentialRelaxTimeSpinBox.setValue(self.__network.get_parameter(ID_POTENTIAL_RELAX_TIME))
+        self.StrengthMinSpinBox.setValue(self.__network.get_parameter(ID_STRENGTH_MIN))
+        self.StrengthMaxSpinBox.setValue(self.__network.get_parameter(ID_STRENGTH_MAX))
+        self.StrengthRelaxTimeSpinBox.setValue(self.__network.get_parameter(ID_STRENGTH_RELAX_TIME))
+        self.MaxResourceSpinBox.setValue(self.__network.get_parameter(ID_RESOURCE_MAX_BY_STRENGTH))
+        self.ResistanceSpinBox.setValue(self.__network.get_parameter(ID_RESISTANCE))
+        self.SynMaxSpinBox.setValue(self.__network.get_parameter(ID_SYN_VALUE_MAX))
+        self.SynMinSpinBox.setValue(self.__network.get_parameter(ID_SYN_VALUE_MIN))
+        self.SynRelaxTimeSpinBox.setValue(self.__network.get_parameter(ID_CONNECTION_RELAX_TIME))
+        # self.StimCurrentSpinBox.setValue(self.__network.get_parameter(INJECTOR_ID_RESOURCE_MAX)) # TODO: not working yet
 
-        for i in range(INJECTOR_CONSTS_COUNT):
+        for i in range(11):
             self.__parameters_set.append(None)
 
         self.show()
@@ -58,18 +57,18 @@ class ParametersWindow(QWidget):
         self.ApplyNowButton.setEnabled(False)
         self.ApplyNowButton.clicked.connect(self.sub_applynow_button)
         self.ElectrodeSensitivitySlider.valueChanged.connect(self.sub_electrode_sensitivity_slider_move)
-        self.StimCurrentSpinBox.valueChanged.connect(self.sub_stim_current_value)
-        self.NoizeStimCurrentSpinBox.valueChanged.connect(self.sub_noize_stim_current)
-        self.SynStepSpinBox.valueChanged.connect(self.sub_syn_step)
-        self.UThresholdSpinBox.valueChanged.connect(self.sub_stim_threshold)
-        self.VThresholdSpinBox.valueChanged.connect(self.sub_brake_threshold)
-        self.StabilityLimitSpinBox.valueChanged.connect(self.sub_stability_limit)
-        self.StimRelaxTimeSpinBox.valueChanged.connect(self.sub_stim_relax_time)
-        self.StabRelaxTimeSpinBox.valueChanged.connect(self.sub_stability_relax_time)
+        self.ThresholdSpinBox.valueChanged.connect(self.sub_threshold_value)
+        self.PotentialRelaxTimeSpinBox.valueChanged.connect(self.sub_potential_relax_time_value)
+        self.StrengthMinSpinBox.valueChanged.connect(self.sub_strength_min)
+        self.StrengthMaxSpinBox.valueChanged.connect(self.sub_strength_max)
+        self.StrengthRelaxTimeSpinBox.valueChanged.connect(self.sub_strength_relax_time)
+        self.MaxResourceSpinBox.valueChanged.connect(self.sub_max_resource)
         self.ResistanceSpinBox.valueChanged.connect(self.sub_resistance)
-        self.RelaxedStimSpinBox.valueChanged.connect(self.sub_relaxed_stim)
-        self.ResMaxSpinBox.valueChanged.connect(self.sub_resourse_max)
-        self.ResMinSpinBox.valueChanged.connect(self.sub_resourse_limit)
+        self.SynMaxSpinBox.valueChanged.connect(self.sub_syn_max)
+        self.SynMinSpinBox.valueChanged.connect(self.sub_syn_min)
+        self.SynRelaxTimeSpinBox.valueChanged.connect(self.sub_syn_relax_time)
+        self.StimCurrentSpinBox.valueChanged.connect(self.sub_stim_current)
+        self.StimCurrentSpinBox.setEnabled(False)  # TODO : not working yet
 
     # override
     def closeEvent(self, event):
@@ -81,7 +80,7 @@ class ParametersWindow(QWidget):
 
     # apply parameter
     def push(self, injector_id, value):
-        self.__network.inject_parameter(injector_id, value)
+        self.__network.set_parameter(injector_id, value)
 
     #subs
     def sub_realtime_checkbox_state(self, state):
@@ -91,7 +90,7 @@ class ParametersWindow(QWidget):
     def sub_applynow_button(self):
         self.__parent.worker.suspend()
         self.__parent.worker.join()
-        for i in range(INJECTOR_CONSTS_COUNT):
+        for i in range(len(self.__parameters_set)):
             if not self.__parameters_set[i] is None:
                 self.push(i, self.__parameters_set[i])
                 self.__parameters_set[i] = None
@@ -99,93 +98,88 @@ class ParametersWindow(QWidget):
 
     def sub_electrode_sensitivity_slider_move(self, value):
         self.ElectrodeSensitivityLabel.setText("Electrode sensitivity: " + str(value/10))
-        inj_const = 0
+        inj_const = ID_SENSITIVITY
         if self.RealTimeApplyParametersCheckBox.isChecked():
             self.push(inj_const, (value/10))
         else:
             self.__parameters_set[inj_const] = (value/10)
 
-    def sub_stim_current_value(self, value):
-        inj_const = 1
+    def sub_threshold_value(self, value):
+        inj_const = ID_THRESHOLD
         if self.RealTimeApplyParametersCheckBox.isChecked():
             self.push(inj_const, value)
         else:
             self.__parameters_set[inj_const] = value
 
-    def sub_noize_stim_current(self, value):
-        inj_const = 2
+    def sub_potential_relax_time_value(self, value):
+        inj_const = ID_POTENTIAL_RELAX_TIME
         if self.RealTimeApplyParametersCheckBox.isChecked():
             self.push(inj_const, value)
         else:
             self.__parameters_set[inj_const] = value
 
-    def sub_syn_step(self, value):
-        inj_const = 3
+    def sub_strength_min(self, value):
+        inj_const = ID_STRENGTH_MIN
         if self.RealTimeApplyParametersCheckBox.isChecked():
             self.push(inj_const, value)
         else:
             self.__parameters_set[inj_const] = value
 
-    def sub_stim_threshold(self, value):
-        inj_const = 4
+    def sub_strength_max(self, value):
+        inj_const = ID_STRENGTH_MAX
         if self.RealTimeApplyParametersCheckBox.isChecked():
             self.push(inj_const, value)
         else:
             self.__parameters_set[inj_const] = value
 
-    def sub_brake_threshold(self, value):
-        inj_const = 5
+    def sub_strength_relax_time(self, value):
+        inj_const = ID_STRENGTH_RELAX_TIME
         if self.RealTimeApplyParametersCheckBox.isChecked():
             self.push(inj_const, value)
         else:
             self.__parameters_set[inj_const] = value
 
-    def sub_stability_limit(self, value):
-        inj_const = 6
-        if self.RealTimeApplyParametersCheckBox.isChecked():
-            self.push(inj_const, value)
-        else:
-            self.__parameters_set[inj_const] = value
-
-    def sub_stim_relax_time(self, value):
-        inj_const = 7
-        if self.RealTimeApplyParametersCheckBox.isChecked():
-            self.push(inj_const, value)
-        else:
-            self.__parameters_set[inj_const] = value
-
-    def sub_stability_relax_time(self, value):
-        inj_const = 8
+    def sub_max_resource(self, value):
+        inj_const = ID_RESOURCE_MAX_BY_STRENGTH
         if self.RealTimeApplyParametersCheckBox.isChecked():
             self.push(inj_const, value)
         else:
             self.__parameters_set[inj_const] = value
 
     def sub_resistance(self, value):
-        inj_const = 9
+        inj_const = ID_RESISTANCE
         if self.RealTimeApplyParametersCheckBox.isChecked():
             self.push(inj_const, value)
         else:
             self.__parameters_set[inj_const] = value
 
-    def sub_relaxed_stim(self, value):
-        inj_const = 10
+    def sub_syn_max(self, value):
+        inj_const = ID_SYN_VALUE_MAX
         if self.RealTimeApplyParametersCheckBox.isChecked():
             self.push(inj_const, value)
         else:
             self.__parameters_set[inj_const] = value
 
-    def sub_resourse_max(self, value):
+    def sub_syn_min(self, value):
+        inj_const = ID_SYN_VALUE_MIN
+        if self.RealTimeApplyParametersCheckBox.isChecked():
+            self.push(inj_const, value)
+        else:
+            self.__parameters_set[inj_const] = value
+
+    def sub_syn_relax_time(self, value):
+        inj_const = ID_CONNECTION_RELAX_TIME
+        if self.RealTimeApplyParametersCheckBox.isChecked():
+            self.push(inj_const, value)
+        else:
+            self.__parameters_set[inj_const] = value
+
+    def sub_stim_current(self, value):
+        # TODO: not working yet
         inj_const = 11
         if self.RealTimeApplyParametersCheckBox.isChecked():
             self.push(inj_const, value)
         else:
             self.__parameters_set[inj_const] = value
 
-    def sub_resourse_limit(self, value):
-        inj_const = 12
-        if self.RealTimeApplyParametersCheckBox.isChecked():
-            self.push(inj_const, value)
-        else:
-            self.__parameters_set[inj_const] = value
 
