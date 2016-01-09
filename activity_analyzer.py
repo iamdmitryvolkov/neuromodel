@@ -364,9 +364,9 @@ def graph(task):
     except ValueError:
         pass
     matrix_act = fs.load_matrix(fname)
-    act = matrix_act[0]
 
-    if act is not None:
+    if matrix_act is not None:
+        act = matrix_act[0]
         result_name = "output/analyzer/graph_" + axis_name
         plt.figure(figsize=(max(8, len(act)/50), 6))
         plt.xlabel("time")
