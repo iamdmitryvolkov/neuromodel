@@ -332,6 +332,8 @@ def activity(task):
         packs = list(map(lambda x: alldata[x[0]:x[1]], packs))
         if drawall:
             draw_activity(alldata, "all activity")
+            p_act_data = [get_population_activity(alldata)]
+            fs.save_matrix(p_act_data, "output/analyzer/all activity.txt")
         process_burst(alldata, 0, columns)
         for i in range(len(packs)):
             process_burst(packs[i], i+1, columns)
