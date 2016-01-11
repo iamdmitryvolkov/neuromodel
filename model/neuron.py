@@ -53,7 +53,6 @@ class Neuron:
 
         # preparing to next step
         self.__incoming_current = 0
-        print(self.__strength)
 
     def get_spike_value(self):
         if self.__potential >= self.__params.threshold and self.__resource > 1:
