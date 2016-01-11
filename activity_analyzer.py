@@ -18,7 +18,7 @@ def show_usage():
     command = cmd1 | cmd2 | cmd3 | cmd4 | cmd5
     cmd1 = -parameter <parameter_id> <value min> <value max> [step <step value. default = 1>]
     cmd2 = -activity [-drawall] <filename>
-    cmd3 = -graph [-lims <y axis limit min> <y axis limit min>] <filename>
+    cmd3 = -graph [-lims <y axis limit min> <y axis limit max>] <filename>
     cmd4 = -bpks {<filename>}
     cmd5 = -dynamics {<neuron number>}
     ''')
